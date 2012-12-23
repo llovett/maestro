@@ -26,7 +26,5 @@ $( document ).ready(
 	};
 
 	var offset = maestro.utils.getTimeOffset();
-	// TODO: For debugging only. Remove this later
-	alert("Your offset from server time is "+offset);
     }
 );
