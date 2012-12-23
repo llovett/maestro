@@ -2,6 +2,7 @@
  * sync.js
  *
  * Synchronize with the offset between the client's time and the server's time.
+ * This must be loaded after jQuery.
  */
 
 var maestro = {};
@@ -25,6 +26,7 @@ $( document ).ready(
 	};
 
 	var offset = maestro.utils.getTimeOffset();
+	// TODO: For debugging only. Remove this later
 	alert("Your offset from server time is "+offset);
     }
 );
