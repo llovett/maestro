@@ -1,4 +1,0 @@
-$(document).read(function() {
-    // It is essential to register all ready events here.
-    $("#orderedlist").addClass("red");
-});
