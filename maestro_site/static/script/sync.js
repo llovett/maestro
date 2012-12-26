@@ -24,6 +24,18 @@ $( document ).ready(
 	    }
 	});
 
+	// Bind user interface to handlers
+	$('#playbutton').click(
+	    function() {
+		$.post( 'play' );
+	    }
+	);
+	$('#resetbutton').click(
+	    function() {
+		$.post( 'reset' );
+	    }
+	);
+
 	// Initialize maestro utilities
 	maestro.utils = {};
 	maestro.utils.getTimeOffset = function() {
@@ -42,15 +54,25 @@ $( document ).ready(
 	    return offset;
 	};
 
+	// How long to wait until playing, when ready to play
+	maestro.utils.waitFor = 0.0;
+	// The difference between server time and client time
+	maestro.utils.clientServerTimeOffset = maestro.utils.getTimeOffset();
+
 	maestro.utils.pollPlayback = function() {
 	    $.get( "poll",
 		   function( data ) {
-		       // TODO!
+		       if ( data.ready ) {
+			   maestro.utils.waitFor =
+			       data.playtime -
+			       (new Date()).getTime() -
+			       maestro.utils.clientServerTimeOffset;
+			   $('#status_text').text("playing in "+maestro.utils.waitFor);
+		       }
 		   }
 		 );
 	};
 
-	maestro.utils.clientServerTimeOffset = maestro.utils.getTimeOffset();
 	maestro.utils.pollTimer = setInterval( maestro.utils.pollPlayback, 1000 );
     }
 );

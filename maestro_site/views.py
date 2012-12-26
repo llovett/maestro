@@ -20,11 +20,11 @@ def poll_playback( request ):
     try:
         playstate = PlayState.objects.get(pk=1)
     except PlayState.DoesNotExist:
-        return HttpResponse( json.dumps(response) )
+        return HttpResponse( json.dumps(response), mimetype='application/json' )
     if playstate.ready:
         response['ready'] = True
         response['playtime'] = playstate.time()
-    return HttpResponse( json.dumps(response) )
+    return HttpResponse( json.dumps(response), mimetype='application/json' )
 
 def reset_playback( request ):
     try:
