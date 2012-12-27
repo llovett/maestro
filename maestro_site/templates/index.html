@@ -20,12 +20,13 @@
 	Welcome to Meastro, we really hope you enjoy your session!
       </p>
       <div id="music">
-	<div id="controls">
+	<form id="controls" action="." method="POST">
+	  {% csrf_token %}
 	  <ul>
 	    <li><button id="playbutton">Play</button></li>
 	    <li><button id="resetbutton">Reset</button></li>
 	  </ul>
-	</div>
+	</form>
 	<div id="status_text"></div>
 	<div id="player">
 	  <audio src="{{ STATIC_URL }}audio/music.mp3" preload="auto"></audio>

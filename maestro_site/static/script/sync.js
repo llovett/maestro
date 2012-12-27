@@ -19,6 +19,7 @@ $( document ).ready(
 	    beforeSend: function(xhr, settings) {
 		if (!csrfSafeMethod(settings.type)) {
 		    var csrftoken = $.cookie('csrftoken');
+		    alert( csrftoken );
 		    xhr.setRequestHeader("X-CSRFToken", csrftoken);
 		}
 	    }
@@ -26,13 +27,27 @@ $( document ).ready(
 
 	// Bind user interface to handlers
 	$('#playbutton').click(
-	    function() {
+	    function( event ) {
+		event.preventDefault();
 		$.post( 'play' );
+		$('#text_status').text("playing");
+		maestro.utils.dotCounter = setInterval(
+		    function() {
+			$('#status_text').text(
+			    $('#status_text').text()+"."
+			);
+		    },
+		    200
+		);
 	    }
 	);
 	$('#resetbutton').click(
-	    function() {
+	    function( event ) {
+		event.preventDefault();
 		$.post( 'reset' );
+		maestro.utils.playTimer = null;
+		clearInterval( maestro.utils.dotCounter );
+		$('#text_status').text("");
 	    }
 	);
 
@@ -58,7 +73,7 @@ $( document ).ready(
 	maestro.utils.waitFor = 0.0;
 	// The difference between server time and client time
 	maestro.utils.clientServerTimeOffset = maestro.utils.getTimeOffset();
-
+	maestro.utils.playTimer = null;
 	maestro.utils.pollPlayback = function() {
 	    $.get( "poll",
 		   function( data ) {
@@ -67,7 +82,19 @@ $( document ).ready(
 			       data.playtime -
 			       (new Date()).getTime() -
 			       maestro.utils.clientServerTimeOffset;
-			   $('#status_text').text("playing in "+maestro.utils.waitFor);
+
+			   if ( null == maestro.utils.playTimer ) {
+			       maestro.utils.playTimer = setTimeout(
+				   // Function to click play button
+				   function() {
+				       $(".play-pause").trigger("click");
+				       clearInterval( maestro.utils.dotCounter );
+				       $('#status_text').text("");
+				   },
+				   // How long to wait to play (calculated above)
+				   maestro.utils.waitFor
+			       );
+			   }
 		       }
 		   }
 		 );
