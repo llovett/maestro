@@ -25,6 +25,19 @@ $( document ).ready(
 	    }
 	});
 
+	// Initialize the audio player
+	var STATIC_URL = "/static/";
+	$("#jquery_jplayer_1").jPlayer({
+            ready: function () {
+		$(this).jPlayer("setMedia", {
+		    mp3: STATIC_URL+"audio/music.mp3"
+//		    oga: "http://www.jplayer.org/audio/ogg/Miaow-07-Bubble.ogg"
+		});
+            },
+            swfPath: STATIC_URL+"script",
+            supplied: "mp3"
+	});
+
 	// Bind user interface to handlers
 	$('#playbutton').click(
 	    function( event ) {
