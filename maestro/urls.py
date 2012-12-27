@@ -9,6 +9,7 @@ from maestro_site import views
 urlpatterns = patterns('',
                        url( r'^$', direct_to_template, {'template': "index.html"} ),
 
+                       url( r'time$', views.time ),
                        url( r'play$', views.start_playback ),
                        url( r'poll$', views.poll_playback ),
                        url( r'reset$', views.reset_playback ),

@@ -1,6 +1,12 @@
 from django.http import HttpResponse
 from maestro_site.models import PlayState
+import datetime
 import json
+
+def time( request ):
+    msSinceEpoch = (datetime.datetime.now() - datetime.datetime.fromtimestamp(0)).total_seconds()*1000.0
+    return HttpResponse( json.dumps({"time":msSinceEpoch}),
+                                    mimetype="application/json" )
 
 def start_playback( request ):
     # Grab the playstate

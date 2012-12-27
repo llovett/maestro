@@ -44,12 +44,12 @@ $( document ).ready(
 	    function( event ) {
 		event.preventDefault();
 		$.post( 'play' );
-		$('#text_status').text("playing");
+		// $('#text_status').text("playing");
 		maestro.utils.dotCounter = setInterval(
 		    function() {
-			$('#status_text').text(
-			    $('#status_text').text()+"."
-			);
+			// $('#status_text').text(
+			//     $('#status_text').text()+"."
+			// );
 		    },
 		    200
 		);
@@ -62,37 +62,43 @@ $( document ).ready(
 		$.post( 'reset' );
 		maestro.utils.playTimer = null;
 		clearInterval( maestro.utils.dotCounter );
-		$('#text_status').text("");
+		// $('#text_status').text("");
 	    }
 	);
 
 	// Initialize maestro utilities
 	maestro.utils = {};
-	maestro.utils.getTimeOffset = function() {
+	maestro.utils.getTimeOffset = function( callback ) {
 	    // Current client time
-	    var localMillisUTC = Date.parse( new Date().toUTCString() );
+	    var localMillis = (new Date()).getTime();
 
-	    // AJAX request to find server date
-	    var request = new XMLHttpRequest();
-	    request.open( 'HEAD', document.location, false );
-	    request.send( null );
-	    var serverDate = request.getResponseHeader( 'date' );
-	    var serverTimeMillisUTC = Date.parse( new Date(Date.parse(serverDate)).toUTCString() );
+	    $.get( "time",
+		   function( data ) {
+		       var localMillisAfter = (new Date()).getTime();
+		       var requestToResponse = (localMillisAfter - localMillis)/2.0;
 
-	    // The offset
-	    var offset = serverTimeMillisUTC - localMillisUTC;
-	    return offset;
+		       // The offset
+		       var offset = date.time - localMillis - requestToResponse;
+		       maestro.utils.clientServerTimeOffset = offset;
+
+		       // For debugging only
+		       $('#status_text').text("server: "+date.time+", local: "+localMillis+"; your time offset is "+offset);
+
+		       // Continue doing what we need, now having the offset calculated for us
+		       callback();
+		   }
+		 );
 	};
 
 	// How long to wait until playing, when ready to play
 	maestro.utils.waitFor = 0.0;
-	// The difference between server time and client time
-	maestro.utils.clientServerTimeOffset = maestro.utils.getTimeOffset();
 	maestro.utils.playTimer = null;
 	maestro.utils.pollPlayback = function() {
 	    $.get( "poll",
 		   function( data ) {
 		       if ( data.ready ) {
+			   // This depends on getTimeOffset() being called already, since we depend
+			   // on the value of clientServerTimeOffset here.
 			   maestro.utils.waitFor =
 			       data.playtime -
 			       (new Date()).getTime() -
@@ -102,10 +108,9 @@ $( document ).ready(
 			       maestro.utils.playTimer = setTimeout(
 				   // Function to click play button
 				   function() {
-				       //$(".play-pause").trigger("click");
 				       $(JPLAYER_ID).jPlayer( "play" );
 				       clearInterval( maestro.utils.dotCounter );
-				       $('#status_text').text("");
+				       // $('#status_text').text("");
 				   },
 				   // How long to wait to play (calculated above)
 				   maestro.utils.waitFor
@@ -116,6 +121,10 @@ $( document ).ready(
 		 );
 	};
 
-	maestro.utils.pollTimer = setInterval( maestro.utils.pollPlayback, 1000 );
+	maestro.utils.getTimeOffset(
+	    function() {
+		maestro.utils.pollTimer = setInterval( maestro.utils.pollPlayback, 1000 );
+	    }
+	);
     }
 );
