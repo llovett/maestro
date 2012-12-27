@@ -19,7 +19,6 @@ $( document ).ready(
 	    beforeSend: function(xhr, settings) {
 		if (!csrfSafeMethod(settings.type)) {
 		    var csrftoken = $.cookie('csrftoken');
-		    alert( csrftoken );
 		    xhr.setRequestHeader("X-CSRFToken", csrftoken);
 		}
 	    }
@@ -27,15 +26,17 @@ $( document ).ready(
 
 	// Initialize the audio player
 	var STATIC_URL = "/static/";
-	$("#jquery_jplayer_1").jPlayer({
+	var JPLAYER_ID = "#jquery_jplayer_1";
+	$(JPLAYER_ID).jPlayer({
             ready: function () {
 		$(this).jPlayer("setMedia", {
-		    mp3: STATIC_URL+"audio/music.mp3"
-//		    oga: "http://www.jplayer.org/audio/ogg/Miaow-07-Bubble.ogg"
+		    mp3: STATIC_URL+"audio/music.mp3",
+		    oga: STATIC_URL+"audio/music.ogg"
 		});
             },
+	    preload: "auto",
             swfPath: STATIC_URL+"script",
-            supplied: "mp3"
+            supplied: "mp3, oga"
 	});
 
 	// Bind user interface to handlers
@@ -57,6 +58,7 @@ $( document ).ready(
 	$('#resetbutton').click(
 	    function( event ) {
 		event.preventDefault();
+		$(JPLAYER_ID).jPlayer( "stop" );
 		$.post( 'reset' );
 		maestro.utils.playTimer = null;
 		clearInterval( maestro.utils.dotCounter );
@@ -100,7 +102,8 @@ $( document ).ready(
 			       maestro.utils.playTimer = setTimeout(
 				   // Function to click play button
 				   function() {
-				       $(".play-pause").trigger("click");
+				       //$(".play-pause").trigger("click");
+				       $(JPLAYER_ID).jPlayer( "play" );
 				       clearInterval( maestro.utils.dotCounter );
 				       $('#status_text').text("");
 				   },
