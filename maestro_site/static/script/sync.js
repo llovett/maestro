@@ -25,8 +25,21 @@ $( document ).ready(
 	});
 
 	// Initialize the audio player
+	var INSTRUMENTS = {
+	    "voice":"hcts_vox.m4a",
+	    "bass":"hcts_bass.m4a",
+	    "synth and strings":"hcts_ss.m4a",
+	    "guitar":"hcts_guitar.m4a",
+	    "drums":"hcts_drums.m4a"
+	};
 	var STATIC_URL = "/static/";
 	var JPLAYER_ID = "#jquery_jplayer_1";
+	function sendToAllPlayers( message ) {
+	    for ( var i=1; i<=INSTRUMENTS.length; i++ ) {
+		var playerID = "#jquery_jplayer_"+i;
+		$( playerID ).jPlayer( message );
+	    }
+	}
 	$(JPLAYER_ID).jPlayer({
             ready: function () {
 		$(this).jPlayer("setMedia", {
