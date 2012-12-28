@@ -30,13 +30,12 @@ $( document ).ready(
 	$(JPLAYER_ID).jPlayer({
             ready: function () {
 		$(this).jPlayer("setMedia", {
-		    mp3: STATIC_URL+"audio/music.mp3",
-		    oga: STATIC_URL+"audio/music.ogg"
+		    m4a: STATIC_URL+"audio/hcts_guitar.m4a"
 		});
             },
 	    preload: "auto",
             swfPath: STATIC_URL+"script",
-            supplied: "mp3, oga"
+            supplied: "m4a"
 	});
 
 	// Bind user interface to handlers
@@ -78,11 +77,11 @@ $( document ).ready(
 		       var requestToResponse = (localMillisAfter - localMillis)/2.0;
 
 		       // The offset
-		       var offset = date.time - localMillis - requestToResponse;
+		       var offset = data.time - localMillis - requestToResponse;
 		       maestro.utils.clientServerTimeOffset = offset;
 
 		       // For debugging only
-		       $('#status_text').text("server: "+date.time+", local: "+localMillis+"; your time offset is "+offset);
+		       $('#status_text').text("server: "+data.time+", local: "+localMillis+"; your time offset is "+offset);
 
 		       // Continue doing what we need, now having the offset calculated for us
 		       callback();
