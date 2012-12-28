@@ -26,19 +26,37 @@ $( document ).ready(
 
 	// Initialize the audio player
 	var STATIC_URL = "/static/";
-	var JPLAYER_ID = "#jquery_jplayer_1";
-	$(JPLAYER_ID).jPlayer({
-            ready: function () {
-		$(this).jPlayer("setMedia", {
-		    mp3: STATIC_URL+"audio/music.mp3",
-		    oga: STATIC_URL+"audio/music.ogg"
-		});
-            },
-	    preload: "auto",
-            swfPath: STATIC_URL+"script",
-            supplied: "mp3, oga"
-	});
-
+	var INSTRUMENTS = {
+	    "bass":"hcts_bass.m4a",
+	    "voice":"hcts_drums.m4a",
+	    "drums":"hcts_guitar.m4a",
+	    "synth and strings":"hcts_ss.m4a",
+	    "guitar":"hcts_vox.m4a"
+	};
+	function sendToAllPlayers( message ) {
+	    for ( var i=1; i<=INSTRUMENTS.length; i++ ) {
+		var playerID = "#jquery_jplayer_"+i;
+		$(playerID).jPlayer( message );
+	    }
+	}
+	var instCounter = 1;
+	for ( var instrument in INSTRUMENTS ) {
+	    var playerID = "#jquery_jplayer_"+instCounter;
+	    instCounter++;
+	    $( playerID ).jPlayer( 
+		{
+		    ready: function () {
+			$(this).jPlayer("setMedia", {
+			    m4a: STATIC_URL+"audio/"+INSTRUMENTS[instrument]
+			});
+		    },
+		    preload: "auto",
+		    swfPath: STATIC_URL+"script",
+		    supplied: "m4a"
+		}
+	    );
+	}
+		
 	// Bind user interface to handlers
 	$('#playbutton').click(
 	    function( event ) {
@@ -58,7 +76,7 @@ $( document ).ready(
 	$('#resetbutton').click(
 	    function( event ) {
 		event.preventDefault();
-		$(JPLAYER_ID).jPlayer( "stop" );
+		sendToAllPlayers( "stop" );
 		$.post( 'reset' );
 		maestro.utils.playTimer = null;
 		clearInterval( maestro.utils.dotCounter );
@@ -108,7 +126,7 @@ $( document ).ready(
 			       maestro.utils.playTimer = setTimeout(
 				   // Function to click play button
 				   function() {
-				       $(JPLAYER_ID).jPlayer( "play" );
+				       sendToAllPlayers( "play" );
 				       clearInterval( maestro.utils.dotCounter );
 				       // $('#status_text').text("");
 				   },

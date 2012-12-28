@@ -19,7 +19,3 @@ class PlayState (models.Model):
 
     def __unicode__( self ):
         return "<%s> (%s)"%( "ready" if self.ready else "not ready", self.time() )
-    
-    
-
-    
