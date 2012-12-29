@@ -34,7 +34,7 @@ $( document ).ready(
 	];
 	var STATIC_URL = "/static/";
 	var JPLAYER_ID = "#jquery_jplayer_1";
-	function sendToSelectedPlayers( message ) {
+	function sendToSelectedPlayers( command, params ) {
 	    var selected = new Array();
 	    $("#instrument_select_list .selected").each(
 		function (index, el) {
@@ -44,13 +44,19 @@ $( document ).ready(
 	    for ( var i=1; i<=INSTRUMENTS.length; i++ ) {
 		if ( selected.indexOf(""+i) < 0 ) continue;
 	    	var playerID = "#jquery_jplayer_"+i;
-	    	$( playerID ).jPlayer( message );
+		if ( typeof params == 'undefined' )
+	    	    $( playerID ).jPlayer( command );
+		else
+		    $( playerID ).jPlayer( command, params );
 	    }
 	}
-	function sendToAllPlayers( message ) {
+	function sendToAllPlayers( command, params ) {
 	    for ( var i=1; i<=INSTRUMENTS.length; i++ ) {
 	    	var playerID = "#jquery_jplayer_"+i;
-	    	$( playerID ).jPlayer( message );
+		if ( typeof params == 'undefined' )
+	    	    $( playerID ).jPlayer( command );
+		else
+		    $( playerID ).jPlayer( command, params );
 	    }
 	}
 	// TODO: Is there a less hacky way to do this? Is this even hacky?
@@ -64,6 +70,7 @@ $( document ).ready(
 			});
 		    },
 		    preload: "auto",
+		    solution: "flash,html",
 		    swfPath: STATIC_URL+"script",
 		    supplied: "m4a",
 		    cssSelectorAncestor: "#jp_container_"+index,
@@ -116,7 +123,7 @@ $( document ).ready(
 	$('#resetbutton').click(
 	    function( event ) {
 		event.preventDefault();
-		sendToAllPlayers( "stop" );
+		sendToAllPlayers( "pause", 0 );
 		$.post( 'reset' );
 		maestro.utils.playTimer = null;
 		clearInterval( maestro.utils.dotCounter );
@@ -176,7 +183,7 @@ $( document ).ready(
 			       );
 			   }
 		       } else if ( maestro.playing ) {
-			   sendToAllPlayers( "stop" );
+			   sendToAllPlayers( "pause", 0 );
 		       }
 		   }
 		 );
