@@ -47,6 +47,12 @@ $( document ).ready(
 	    	$( playerID ).jPlayer( message );
 	    }
 	}
+	function sendToAllPlayers( message ) {
+	    for ( var i=1; i<=INSTRUMENTS.length; i++ ) {
+	    	var playerID = "#jquery_jplayer_"+i;
+	    	$( playerID ).jPlayer( message );
+	    }
+	}
 	// TODO: Is there a less hacky way to do this? Is this even hacky?
 	function getFile( index ) {
 	    if ( index <= INSTRUMENTS.length ) {
@@ -110,7 +116,7 @@ $( document ).ready(
 	$('#resetbutton').click(
 	    function( event ) {
 		event.preventDefault();
-		sendToSelectedPlayers( "stop" );
+		sendToAllPlayers( "stop" );
 		$.post( 'reset' );
 		maestro.utils.playTimer = null;
 		clearInterval( maestro.utils.dotCounter );
@@ -161,6 +167,7 @@ $( document ).ready(
 				   // Function to click play button
 				   function() {
 				       sendToSelectedPlayers( "play" );
+				       maestro.playing = true;
 				       clearInterval( maestro.utils.dotCounter );
 				       // $('#status_text').text("");
 				   },
@@ -168,6 +175,8 @@ $( document ).ready(
 				   maestro.utils.waitFor
 			       );
 			   }
+		       } else if ( maestro.playing ) {
+			   sendToAllPlayers( "stop" );
 		       }
 		   }
 		 );
