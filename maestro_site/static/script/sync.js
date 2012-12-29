@@ -36,20 +36,38 @@ $( document ).ready(
 	var JPLAYER_ID = "#jquery_jplayer_1";
 	function sendToAllPlayers( message ) {
 	    for ( var i=1; i<=INSTRUMENTS.length; i++ ) {
-		var playerID = "#jquery_jplayer_"+i;
-		$( playerID ).jPlayer( message );
+	    	var playerID = "#jquery_jplayer_"+i;
+	    	$( playerID ).jPlayer( message );
 	    }
 	}
-	$(JPLAYER_ID).jPlayer({
-            ready: function () {
-		$(this).jPlayer("setMedia", {
-		    m4a: STATIC_URL+"audio/hcts_guitar.m4a"
-		});
-            },
-	    preload: "auto",
-            swfPath: STATIC_URL+"script",
-            supplied: "m4a"
-	});
+	var instCounter = 1;
+	for ( var instrument in INSTRUMENTS ) {
+	    var playerID = "#jquery_jplayer_"+instCounter;
+	    alert("playerID is "+playerID);
+	    $( playerID ).jPlayer({
+		ready: function () {
+		    $( this ).jPlayer("setMedia", {
+			m4a: STATIC_URL+"audio/"+INSTRUMENTS[instrument]
+		    });
+		},
+		preload: "auto",
+		swfPath: STATIC_URL+"script",
+		supplied: "m4a",
+		cssSelectorAncestor: "#jp_container_"+instCounter,
+		wmode:"window"
+	    });
+	    instCounter++;
+	}
+	// $(JPLAYER_ID).jPlayer({
+        //     ready: function () {
+	// 	$(this).jPlayer("setMedia", {
+	// 	    m4a: STATIC_URL+"audio/hcts_guitar.m4a"
+	// 	});
+        //     },
+	//     preload: "auto",
+        //     swfPath: STATIC_URL+"script",
+        //     supplied: "m4a"
+	// });
 
 	// Bind user interface to handlers
 	$('#playbutton').click(
@@ -70,7 +88,8 @@ $( document ).ready(
 	$('#resetbutton').click(
 	    function( event ) {
 		event.preventDefault();
-		$(JPLAYER_ID).jPlayer( "stop" );
+		// $(JPLAYER_ID).jPlayer( "stop" );
+		sendToAllPlayers( "stop" );
 		$.post( 'reset' );
 		maestro.utils.playTimer = null;
 		clearInterval( maestro.utils.dotCounter );
@@ -120,7 +139,8 @@ $( document ).ready(
 			       maestro.utils.playTimer = setTimeout(
 				   // Function to click play button
 				   function() {
-				       $(JPLAYER_ID).jPlayer( "play" );
+				       sendToAllPlayers( "play" );
+				       // $(JPLAYER_ID).jPlayer( "play" );
 				       clearInterval( maestro.utils.dotCounter );
 				       // $('#status_text').text("");
 				   },
