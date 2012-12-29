@@ -144,10 +144,10 @@ $( document ).ready(
 	    $.get( "time",
 		   function( data ) {
 		       var localMillisAfter = (new Date()).getTime();
-		       var requestToResponse = (localMillisAfter - localMillis)/2.0;
+		       var requestToResponse = localMillisAfter - localMillis;
 
 		       // The offset
-		       var offset = data.time - localMillis - requestToResponse;
+		       var offset = (data.time - requestToResponse) - localMillis;
 		       maestro.utils.clientServerTimeOffset = offset;
 
 		       // For debugging only
