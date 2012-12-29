@@ -74,20 +74,16 @@ $( document ).ready(
 	for ( var i=0; i<INSTRUMENTS.length; i++ ) {
 	    var instrument = INSTRUMENTS[i][0];
 	    var newItem = $('<li></li>');
+	    newItem.addClass( "instrument_"+(i+1) );
 	    var newLink = $('<a></a>');
-	    newLink.attr(
-		{
-		    href: "#",
-		    class: "instrument_"+(i+1),
-		}
-	    );
+	    newLink.attr( {href:"#"} );
 	    newLink.append( instrument );
 	    // Click handler for the link
-	    newLink.click(
+	    newItem.click(
 		function( event ) {
 		    event.preventDefault();
 		    $( this ).toggleClass( "selected" );
-		    var inst = $( this ).text();
+		    var inst = $( this ).children().text();
 		    // TODO: do something with this?
 		}
 	    );
