@@ -25,13 +25,13 @@ $( document ).ready(
 	});
 
 	// Initialize the audio player
-	var INSTRUMENTS = {
-	    "voice":"hcts_vox.m4a",
-	    "bass":"hcts_bass.m4a",
-	    "synth and strings":"hcts_ss.m4a",
-	    "guitar":"hcts_guitar.m4a",
-	    "drums":"hcts_drums.m4a"
-	};
+	var INSTRUMENTS = [
+	    [ "voice","hcts_vox.m4a" ],
+	    [ "bass","hcts_bass.m4a" ],
+	    [ "synth and strings","hcts_ss.m4a" ],
+	    [ "guitar","hcts_guitar.m4a" ],
+	    [ "drums","hcts_drums.m4a" ]
+	];
 	var STATIC_URL = "/static/";
 	var JPLAYER_ID = "#jquery_jplayer_1";
 	function sendToAllPlayers( message ) {
@@ -40,24 +40,48 @@ $( document ).ready(
 	    	$( playerID ).jPlayer( message );
 	    }
 	}
-	var instCounter = 1;
-	for ( var instrument in INSTRUMENTS ) {
-	    var playerID = "#jquery_jplayer_"+instCounter;
-	    alert("playerID is "+playerID);
-	    $( playerID ).jPlayer({
-		ready: function () {
-		    $( this ).jPlayer("setMedia", {
-			m4a: STATIC_URL+"audio/"+INSTRUMENTS[instrument]
-		    });
-		},
-		preload: "auto",
-		swfPath: STATIC_URL+"script",
-		supplied: "m4a",
-		cssSelectorAncestor: "#jp_container_"+instCounter,
-		wmode:"window"
-	    });
-	    instCounter++;
+	// TODO: Is there a less hacky way to do this? Is this even hacky?
+	function getFile( index ) {
+	    if ( index <= INSTRUMENTS.length ) {
+		var playerID = "#jquery_jplayer_"+index;
+		$( playerID ).jPlayer({
+		    ready: function () {
+			$( this ).jPlayer("setMedia", {
+			    m4a: STATIC_URL+"audio/"+getFile( index+1 )
+			});
+		    },
+		    preload: "auto",
+		    swfPath: STATIC_URL+"script",
+		    supplied: "m4a",
+		    cssSelectorAncestor: "#jp_container_"+index,
+		    wmode:"window"
+		});
+	    }
+	    if ( index > 1 )
+		return INSTRUMENTS[index-2][1];
+	    return "";
 	}
+	// This initializes all jPlayers in strict order!
+	getFile( 1 );
+
+	// var instCounter = 1;
+	// for ( var instrument in INSTRUMENTS ) {
+	//     var playerID = "#jquery_jplayer_"+instCounter;
+	//     alert("playerID is "+playerID);
+	//     $( playerID ).jPlayer({
+	// 	ready: function () {
+	// 	    $( this ).jPlayer("setMedia", {
+	// 		m4a: STATIC_URL+"audio/"+INSTRUMENTS[instrument]
+	// 	    });
+	// 	},
+	// 	preload: "auto",
+	// 	swfPath: STATIC_URL+"script",
+	// 	supplied: "m4a",
+	// 	cssSelectorAncestor: "#jp_container_"+instCounter,
+	// 	wmode:"window"
+	//     });
+	//     instCounter++;
+	// }
 	// $(JPLAYER_ID).jPlayer({
         //     ready: function () {
 	// 	$(this).jPlayer("setMedia", {
