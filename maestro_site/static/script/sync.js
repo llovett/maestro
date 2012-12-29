@@ -105,6 +105,14 @@ $( document ).ready(
 	}
 
 	// Bind user interface to handlers
+	function stopPlayback() {
+	    sendToAllPlayers( "pause", 0 );
+	    $.post( 'reset' );
+	    maestro.utils.playTimer = null;
+	    clearInterval( maestro.utils.dotCounter );
+	    maestro.playing = false;
+	    // $('#text_status').text("");
+	}	    
 	$('#playbutton').click(
 	    function( event ) {
 		event.preventDefault();
@@ -123,11 +131,7 @@ $( document ).ready(
 	$('#resetbutton').click(
 	    function( event ) {
 		event.preventDefault();
-		sendToAllPlayers( "pause", 0 );
-		$.post( 'reset' );
-		maestro.utils.playTimer = null;
-		clearInterval( maestro.utils.dotCounter );
-		// $('#text_status').text("");
+		stopPlayback();
 	    }
 	);
 
@@ -183,7 +187,7 @@ $( document ).ready(
 			       );
 			   }
 		       } else if ( maestro.playing ) {
-			   sendToAllPlayers( "pause", 0 );
+			   stopPlayback();
 		       }
 		   }
 		 );
