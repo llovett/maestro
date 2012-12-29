@@ -34,8 +34,15 @@ $( document ).ready(
 	];
 	var STATIC_URL = "/static/";
 	var JPLAYER_ID = "#jquery_jplayer_1";
-	function sendToAllPlayers( message ) {
+	function sendToSelectedPlayers( message ) {
+	    var selected = new Array();
+	    $("#instrument_select_list .selected").each(
+		function (index, el) {
+		    selected.push( $(this).attr("class").split(' ')[0].split('_')[1] );
+		}
+	    );
 	    for ( var i=1; i<=INSTRUMENTS.length; i++ ) {
+		if ( selected.indexOf(""+i) < 0 ) continue;
 	    	var playerID = "#jquery_jplayer_"+i;
 	    	$( playerID ).jPlayer( message );
 	    }
@@ -63,6 +70,30 @@ $( document ).ready(
 	}
 	// This initializes all jPlayers in strict order!
 	getFile( 1 );
+	// Show instrument listing
+	for ( var i=0; i<INSTRUMENTS.length; i++ ) {
+	    var instrument = INSTRUMENTS[i][0];
+	    var newItem = $('<li></li>');
+	    var newLink = $('<a></a>');
+	    newLink.attr(
+		{
+		    href: "#",
+		    class: "instrument_"+(i+1),
+		}
+	    );
+	    newLink.append( instrument );
+	    // Click handler for the link
+	    newLink.click(
+		function( event ) {
+		    event.preventDefault();
+		    $( this ).toggleClass( "selected" );
+		    var inst = $( this ).text();
+		    // TODO: do something with this?
+		}
+	    );
+	    newItem.append( newLink );
+	    $("#instrument_select_list").append( newItem );
+	}
 
 	// Bind user interface to handlers
 	$('#playbutton').click(
@@ -83,7 +114,7 @@ $( document ).ready(
 	$('#resetbutton').click(
 	    function( event ) {
 		event.preventDefault();
-		sendToAllPlayers( "stop" );
+		sendToSelectedPlayers( "stop" );
 		$.post( 'reset' );
 		maestro.utils.playTimer = null;
 		clearInterval( maestro.utils.dotCounter );
@@ -133,7 +164,7 @@ $( document ).ready(
 			       maestro.utils.playTimer = setTimeout(
 				   // Function to click play button
 				   function() {
-				       sendToAllPlayers( "play" );
+				       sendToSelectedPlayers( "play" );
 				       clearInterval( maestro.utils.dotCounter );
 				       // $('#status_text').text("");
 				   },

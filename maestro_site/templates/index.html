@@ -22,13 +22,20 @@
 	Welcome to Meastro, we really hope you enjoy your session!
       </p>
       <div id="music">
-	<form id="controls" action="." method="POST">
-	  {% csrf_token %}
-	  <ul>
-	    <li><button id="playbutton">Play</button></li>
-	    <li><button id="resetbutton">Stop</button></li>
-	  </ul>
-	</form>
+	<div id="controls">
+	  <form id="playpause" action="." method="POST">
+	    {% csrf_token %}
+	    <ul>
+	      <li><button id="playbutton">Play</button></li>
+	      <li><button id="resetbutton">Stop</button></li>
+	    </ul>
+	  </form>
+	  <div id="instrument_select">
+	    <!-- javascript will insert instruments here -->
+	    <ul id="instrument_select_list">
+	    </ul>
+	  </div>
+	</div>
 	<div id="status_text"></div>
 	<div id="player">
 	  <!-- <audio src="{{ STATIC_URL }}audio/music.mp3"
@@ -246,8 +253,6 @@
 	      </div>
 	    </div>
 	  </div>
-
->>>>>>> multiplay
 	  <!-- end of jplayer player -->
 
 	</div>

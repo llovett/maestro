@@ -3,12 +3,21 @@ body {
     color:rgb(50,50,50);
 }
 
-#controls ul {
+#playpause ul {
     list-style-type:none;
     margin:0px;
     padding:0px;
 }
 
-#controls li {
+#playpause li {
     display:inline;
 }
+
+#instrument_select_list a {
+    background-color: lightgray;
+}
+
+#instrument_select_list .selected {
+    background-color: orange;
+}
+
