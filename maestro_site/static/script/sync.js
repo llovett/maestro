@@ -163,7 +163,7 @@ $( document ).ready(
 	maestro.utils.waitFor = 0.0;
 	maestro.utils.playTimer = null;
 	maestro.utils.pollPlayback = function() {
-	    $.get( "poll",
+	    $.get( "/poll",
 		   function( data ) {
 		       if ( data.ready ) {
 			   // This depends on getTimeOffset() being called already, since we depend

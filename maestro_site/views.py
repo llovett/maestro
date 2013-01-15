@@ -1,7 +1,29 @@
 from django.http import HttpResponse
-from maestro_site.models import PlayState
+from django.template import RequestContext
+from django.shortcuts import render_to_response
+from django.contrib import messages
+from maestro_site.models import PlayState, PlaySession
 import datetime
 import json
+from forms import PlaySessionForm
+
+def session_new( request ):
+    form = PlaySessionForm( request.POST or None )
+    if form.is_valid():
+        form.save()
+        return HttpResponse("Your new session has been created")
+    return render_to_response('index.html', locals(), context_instance=RequestContext(request))
+
+def session_get( request ):
+    session_title = request.POST['title']
+    try:
+        playSession = PlaySession.objects.get(title=session_title)
+    except PlaySession.DoesNotExist:
+        # Show a message & create a new form
+        messages.add_message( request, messages.ERROR, 'Could not find a session with that name.' )
+        form = PlaySessionForm()
+        return render_to_response('index.html', locals(), context_instance=RequestContext(request))
+    return render_to_response('session.html', locals(), context_instance=RequestContext(request))
 
 def time( request ):
     msSinceEpoch = (datetime.datetime.now() - datetime.datetime.fromtimestamp(0)).total_seconds()*1000.0

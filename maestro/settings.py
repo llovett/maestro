@@ -22,6 +22,8 @@ DATABASES = {
     }
 }
 
+MESSAGE_STORAGE = 'django.contrib.messages.storage.session.SessionStorage'
+
 # Local time zone for this installation. Choices can be found here:
 # http://en.wikipedia.org/wiki/List_of_tz_zones_by_name
 # although not all choices may be available on all operating systems.
@@ -46,7 +48,7 @@ USE_L10N = True
 USE_TZ = False
 
 # The location of this file, used for setting other directories
-HERE = os.path.abspath( __file__ )
+HERE = os.path.dirname( os.path.abspath( __file__ ) )
 
 # Absolute filesystem path to the directory that will hold user-uploaded files.
 # Example: "/home/media/media.lawrence.com/media/"
@@ -69,6 +71,7 @@ STATIC_URL = '/static/'
 
 # Additional locations of static files
 STATICFILES_DIRS = (
+    '/static',
     # Put strings here, like "/home/html/static" or "C:/www/django/static".
     # Always use forward slashes, even on Windows.
     # Don't forget to use absolute paths, not relative paths.
@@ -92,6 +95,11 @@ TEMPLATE_LOADERS = (
 #     'django.template.loaders.eggs.Loader',
 )
 
+TEMPLATE_CONTEXT_PROCESSORS = (
+    'django.contrib.messages.context_processors.messages',
+    'django.core.context_processors.static',
+)
+
 MIDDLEWARE_CLASSES = (
     'django.middleware.common.CommonMiddleware',
     'django.contrib.sessions.middleware.SessionMiddleware',
@@ -108,7 +116,7 @@ ROOT_URLCONF = 'maestro.urls'
 WSGI_APPLICATION = 'maestro.wsgi.application'
 
 TEMPLATE_DIRS = (
-    HERE + "/../../maestro_site/templates",
+    HERE + "/templates",
     # Put strings here, like "/home/html/django_templates" or "C:/www/django/templates".
     # Always use forward slashes, even on Windows.
     # Don't forget to use absolute paths, not relative paths.

@@ -7,8 +7,9 @@ from maestro_site import views
 # admin.autodiscover()
 
 urlpatterns = patterns('',
-                       url( r'^$', direct_to_template, {'template': "index.html"} ),
-
+                       url( r'^$', views.session_new, name="main_page" ),
+                       url( r'^session/new/$', views.session_new, name="session_new" ),
+                       url( r'^session/join/$', views.session_get, name="session_join" ),
                        url( r'time$', views.time ),
                        url( r'play$', views.start_playback ),
                        url( r'poll$', views.poll_playback ),

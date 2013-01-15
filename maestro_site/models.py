@@ -1,8 +1,19 @@
 from django.db import models
 import datetime
 
-# Create your models here.
+class PlaySession (models.Model):
+    '''
+    Models a playback session among multiple machines.
+    '''
+    title = models.CharField(max_length=100, unique=True)
+
+    def __unicode__( self ):
+        return self.title
+
 class PlayState (models.Model):
+    '''
+    Models the playstate of a single song within a Session.
+    '''
     # How long to wait after "PLAY" button is pressed to start playing.
     # This is used to debunk some network latency.
     LATENCY_TIME_MS = 3000
@@ -10,6 +21,8 @@ class PlayState (models.Model):
     ready = models.BooleanField( default=False )
     # When will we start playing (+ LATENCY_TIME_MS)?
     startTime = models.DateTimeField( auto_now=True )
+    # Session we're playing in
+    playSession = models.ForeignKey('PlaySession')
 
     def time( self ):
         epoch = datetime.datetime.fromtimestamp(0)
