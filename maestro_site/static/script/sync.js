@@ -107,7 +107,7 @@ $( document ).ready(
 	// Bind user interface to handlers
 	function stopPlayback() {
 	    sendToAllPlayers( "pause", 0 );
-	    $.post( 'reset' );
+	    $.post( '/reset' );
 	    maestro.utils.playTimer = null;
 	    clearInterval( maestro.utils.dotCounter );
 	    maestro.playing = false;
@@ -116,7 +116,7 @@ $( document ).ready(
 	$('#playbutton').click(
 	    function( event ) {
 		event.preventDefault();
-		$.post( 'play' );
+		$.post( '/play' );
 		// $('#text_status').text("playing");
 		maestro.utils.dotCounter = setInterval(
 		    function() {
