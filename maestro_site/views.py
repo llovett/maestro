@@ -11,6 +11,7 @@ def session_new( request ):
     form = PlaySessionForm( request.POST or None )
     if form.is_valid():
         playSession = form.save()
+        session_title = playSession.title
         request.session['playsession'] = playSession.id
         return render_to_response('session.html', locals(), context_instance=RequestContext(request))
     return render_to_response('index.html', locals(), context_instance=RequestContext(request))
@@ -28,9 +29,10 @@ def session_get( request ):
     return render_to_response('session.html', locals(), context_instance=RequestContext(request))
 
 def session_destroy( request ):
-    playSession = request.session['playsession']
+    playSession = PlaySession.objects.get(id=request.session['playsession'])
     playSession.delete()
     request.session['playsession'] = 0
+    form = PlaySessionForm()    
     return render_to_response('index.html', locals(), context_instance=RequestContext(request))
 
 def time( request ):

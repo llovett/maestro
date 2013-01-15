@@ -234,5 +234,9 @@
       <!-- end of jplayer player -->
     </div>
   </div>
+  <form method="POST" action="{% url session_end %}">
+    {% csrf_token %}    
+    <input type="submit" value="end session" />
+  </form>    
 {% endblock %}  
       
