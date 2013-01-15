@@ -141,7 +141,7 @@ $( document ).ready(
 	    // Current client time
 	    var localMillis = (new Date()).getTime();
 
-	    $.get( "time",
+	    $.get( "/time",
 		   function( data ) {
 		       var localMillisAfter = (new Date()).getTime();
 		       var requestToResponse = localMillisAfter - localMillis;
