@@ -29,9 +29,13 @@ def session_get( request ):
     return render_to_response('session.html', locals(), context_instance=RequestContext(request))
 
 def session_destroy( request ):
-    playSession = PlaySession.objects.get(id=request.session['playsession'])
-    playSession.delete()
-    request.session['playsession'] = 0
+    try:
+        playSession = PlaySession.objects.get(id=request.session['playsession'])
+        playSession.delete()
+        request.session['playsession'] = 0
+    except PlaySession.DoesNotExist:
+        # May have been destroyed by another user connected to the session
+        pass
     form = PlaySessionForm()    
     return render_to_response('index.html', locals(), context_instance=RequestContext(request))
 
