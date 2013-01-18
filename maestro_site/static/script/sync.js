@@ -24,14 +24,34 @@ $( document ).ready(
 	    }
 	});
 
-	// Initialize the audio player
-	var INSTRUMENTS = [
-	    [ "voice","hcts_vox.m4a" ],
-	    [ "bass","hcts_bass.m4a" ],
-	    [ "synth and strings","hcts_ss.m4a" ],
-	    [ "guitar","hcts_guitar.m4a" ],
-	    [ "drums","hcts_drums.m4a" ]
-	];
+
+
+	////////////////////
+        // AJAX UTILITIES //
+        ////////////////////
+
+	// Allows us to request more information about a particular song.
+	// Response is evaluated as JSON and stored in `instruments'.
+	var instruments = new Array();
+	maestro.ajax.getSong = function( songTitle ) {
+	    $.get( '/songs',
+		   data: { title: songTitle },
+		   success: function( data ) {
+		       instruments = $.parseJSON( data );
+
+		       // This re-initializes all jplayers with the right audio
+		       getFile( 1 );
+		       // This lists all available instruments for the new song
+		       listInstruments();
+		   } );
+	};
+	
+
+
+	/////////////////////////////////
+        // AUDIO PLAYER INTERFACE CODE //
+        /////////////////////////////////
+
 	var STATIC_URL = "/static/";
 	var JPLAYER_ID = "#jquery_jplayer_1";
 	function sendToSelectedPlayers( command, params ) {
@@ -41,7 +61,7 @@ $( document ).ready(
 		    selected.push( $(this).attr("class").split(' ')[0].split('_')[1] );
 		}
 	    );
-	    for ( var i=1; i<=INSTRUMENTS.length; i++ ) {
+	    for ( var i=1; i<=instruments.length; i++ ) {
 		if ( selected.indexOf(""+i) < 0 ) continue;
 	    	var playerID = "#jquery_jplayer_"+i;
 		if ( typeof params == 'undefined' )
@@ -51,7 +71,7 @@ $( document ).ready(
 	    }
 	}
 	function sendToAllPlayers( command, params ) {
-	    for ( var i=1; i<=INSTRUMENTS.length; i++ ) {
+	    for ( var i=1; i<=instruments.length; i++ ) {
 	    	var playerID = "#jquery_jplayer_"+i;
 		if ( typeof params == 'undefined' )
 	    	    $( playerID ).jPlayer( command );
@@ -61,7 +81,7 @@ $( document ).ready(
 	}
 	// TODO: Is there a less hacky way to do this? Is this even hacky?
 	function getFile( index ) {
-	    if ( index <= INSTRUMENTS.length ) {
+	    if ( index <= instruments.length ) {
 		var playerID = "#jquery_jplayer_"+index;
 		$( playerID ).jPlayer({
 		    ready: function () {
@@ -78,30 +98,36 @@ $( document ).ready(
 		});
 	    }
 	    if ( index > 1 )
-		return INSTRUMENTS[index-2][1];
+		return instruments[index-2].path;
 	    return "";
 	}
 	// This initializes all jPlayers in strict order!
 	getFile( 1 );
-	// Show instrument listing
-	for ( var i=0; i<INSTRUMENTS.length; i++ ) {
-	    var instrument = INSTRUMENTS[i][0];
-	    var newItem = $('<li></li>');
-	    newItem.addClass( "instrument_"+(i+1) );
-	    var newLink = $('<a></a>');
-	    newLink.attr( {href:"#"} );
-	    newLink.append( instrument );
-	    // Click handler for the link
-	    newItem.click(
-		function( event ) {
-		    event.preventDefault();
-		    $( this ).toggleClass( "selected" );
-		    var inst = $( this ).children().text();
-		    // TODO: do something with this?
-		}
-	    );
-	    newItem.append( newLink );
-	    $("#instrument_select_list").append( newItem );
+
+	// Lists all instruments available for a song.
+	function listInstruments() {
+	    $("#instrument_select_list").empty();
+
+	    // Show instrument listing
+	    for ( var i=0; i<instruments.length; i++ ) {
+		var instrument = instruments[i].inst;
+		var newItem = $('<li></li>');
+		newItem.addClass( "instrument_"+(i+1) );
+		var newLink = $('<a></a>');
+		newLink.attr( {href:"#"} );
+		newLink.append( instrument );
+		// Click handler for the link
+		newItem.click(
+		    function( event ) {
+			event.preventDefault();
+			$( this ).toggleClass( "selected" );
+			var inst = $( this ).children().text();
+			// TODO: do something with this?
+		    }
+		);
+		newItem.append( newLink );
+		$("#instrument_select_list").append( newItem );
+	    }
 	}
 
 	// Bind user interface to handlers
@@ -134,6 +160,13 @@ $( document ).ready(
 		stopPlayback();
 	    }
 	);
+
+
+
+
+	//////////////////////////
+        // SYNCHRONIZATION CODE //
+        //////////////////////////
 
 	// Initialize maestro utilities
 	maestro.utils = {};
