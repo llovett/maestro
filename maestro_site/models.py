@@ -36,3 +36,7 @@ class SongStem(models.Model):
 		faudio = models.CharField(max_length=50)#Audio file name
 		num_access = models.IntegerField()
 		artist = models.CharField(max_length=40)
+
+
+		def __unicode__( self ):
+				return self.faudio
