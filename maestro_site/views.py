@@ -3,9 +3,20 @@ from django.template import RequestContext
 from django.shortcuts import render_to_response
 from django.contrib import messages
 from maestro_site.models import PlaySession
+from maestro_site.models import SongStem
 import datetime
 import json
 from forms import PlaySessionForm
+
+def songs_get( request ):
+	user_list = []
+	song_list = SongStem.objects.all()
+	for song in song_list:
+		if user_list.count(song.name) == 0:
+			user_list.append(song.name)
+
+	return HttpResponse();
+	
 
 def session_new( request ):
     form = PlaySessionForm( request.POST or None )
