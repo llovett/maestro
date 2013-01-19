@@ -26,3 +26,13 @@ class PlaySession (models.Model):
 
     def __unicode__( self ):
         return self.title
+
+
+
+class SongStem(models.Model):
+		
+		name = models.CharField(max_length=60)
+		instr = models.CharField(max_length=30)#Instrument
+		faudio = models.CharField(max_length=50)#Audio file name
+		num_access = models.IntegerField()
+		artist = models.CharField(max_length=40)
