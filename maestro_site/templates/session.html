@@ -4,30 +4,40 @@
 {% endblock %}
 {% block content %}
   <h2>{{ session_title }}</h2>
-  <div id="music">
-    <div id="controls">
-      <form id="playpause" action="." method="POST">
-	{% csrf_token %}
-	<ul>
-	  <li><button id="playbutton">Play</button></li>
-	  <li><button id="resetbutton">Stop</button></li>
-	</ul>
-      </form>
 			<div id="song_select">
 				{% if user_list %}
-					<select id="song_select_list">
+					<form action="/song_get" method="GET">
+					<select name = "song_list" id="song_select_list">
 						{% for song in user_list %}
-						<option value="{{song}}"> {{song}}</option>
+						<option name="{{song}}" value="{{song}}"> {{song}}</option>
 						{% endfor %}
+						<input type="submit" value="Pick">
 					</select>
+					</form>
 				{% endif %}
 			</div>
-      <div id="instrument_select">
-	<!-- javascript will insert instruments here -->
-	<ul id="instrument_select_list">
-	</ul>
-      </div>
-    </div>
+	{% if song_chosen %}
+		<div id="music">
+			<div id="controls">
+				<form id="playpause" action="." method="POST">
+		{% csrf_token %}
+		<ul>
+			<li><button id="playbutton">Play</button></li>
+			<li><button id="resetbutton">Stop</button></li>
+		</ul>
+				</form>
+		<select name = "stem_list" id="stem_select_list">
+		{% for stem in song_stems %}
+			<option name="{{stem.instr}}" value="{{stem.inst}}">{{stem.instr}}</option>
+		{% endfor %}
+		</select>
+				<div id="instrument_select">
+		<!-- javascript will insert instruments here -->
+		<ul id="instrument_select_list">
+		</ul>
+				</div>
+			</div>
+	{% endif %}
     <div id="status_text"></div>
     <div id="player">
       <div id="jquery_jplayer_1" class="jp-jplayer"></div>

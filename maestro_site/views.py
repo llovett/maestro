@@ -9,6 +9,15 @@ import json
 from forms import PlaySessionForm
 
 
+def song_get( request ):
+	if 'song_list' in request.GET and request.GET['song_list']:
+		song_thing = request.GET['song_list']
+		song_stems = SongStem.objects.filter(name=song_thing)
+		song_chosen= 1
+		return render_to_response('session.html', locals(), context_instance=RequestContext(request))
+	
+		
+		
 def session_new( request ):
 			form = PlaySessionForm( request.POST or None )
 			if form.is_valid():
