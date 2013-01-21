@@ -20,11 +20,4 @@
     <input type="button" value="Create" id="button_create" />
     <input type="button" value="Join" id="button_join" />
   </form>    
-{% if user_list %}
-	<ul>
-		{% for song in user_list %}
-		<li> {{song}}</li>
-		{% endfor %}
-	</ul>
-{% endif %}
 {% endblock %}  

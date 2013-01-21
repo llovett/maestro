@@ -13,6 +13,15 @@
 	  <li><button id="resetbutton">Stop</button></li>
 	</ul>
       </form>
+			<div id="song_select">
+				{% if user_list %}
+					<ul id="song_select_list">
+						{% for song in user_list %}
+						<li> {{song}}</li>
+						{% endfor %}
+					</ul>
+				{% endif %}
+			</div>
       <div id="instrument_select">
 	<!-- javascript will insert instruments here -->
 	<ul id="instrument_select_list">

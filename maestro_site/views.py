@@ -10,12 +10,6 @@ from forms import PlaySessionForm
 
 
 def session_new( request ):
-		user_list = []
-		song_list = SongStem.objects.all()
-		for song in song_list:
-			if user_list.count(song.name) == 0:
-				user_list.append(str(song.name))
-		else:
 			form = PlaySessionForm( request.POST or None )
 			if form.is_valid():
 					playSession = form.save()
@@ -25,16 +19,22 @@ def session_new( request ):
 			return render_to_response('index.html', locals(), context_instance=RequestContext(request))
 
 def session_get( request ):
-    session_title = request.POST['title']
-    try:
-        playSession = PlaySession.objects.get(title=session_title)
-        request.session['playsession'] = playSession.id
-    except PlaySession.DoesNotExist:
-        # Show a message & create a new form
-        messages.add_message( request, messages.ERROR, 'Could not find a session with that name.' )
-        form = PlaySessionForm()
-        return render_to_response('index.html', locals(), context_instance=RequestContext(request))
-    return render_to_response('session.html', locals(), context_instance=RequestContext(request))
+		user_list = []
+		song_list = SongStem.objects.all()
+		for song in song_list:
+			if user_list.count(song.name) == 0:
+				user_list.append(str(song.name))
+		else:
+			session_title = request.POST['title']
+			try:
+					playSession = PlaySession.objects.get(title=session_title)
+					request.session['playsession'] = playSession.id
+			except PlaySession.DoesNotExist:
+					# Show a message & create a new form
+					messages.add_message( request, messages.ERROR, 'Could not find a session with that name.' )
+					form = PlaySessionForm()
+					return render_to_response('index.html', locals(), context_instance=RequestContext(request))
+			return render_to_response('session.html', locals(), context_instance=RequestContext(request))
 
 def session_destroy( request ):
     try:
