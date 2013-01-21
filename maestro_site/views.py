@@ -8,24 +8,21 @@ import datetime
 import json
 from forms import PlaySessionForm
 
-def songs_get( request ):
-	user_list = []
-	song_list = SongStem.objects.all()
-	for song in song_list:
-		if user_list.count(song.name) == 0:
-			user_list.append(song.name)
-
-	return HttpResponse();
-	
 
 def session_new( request ):
-    form = PlaySessionForm( request.POST or None )
-    if form.is_valid():
-        playSession = form.save()
-        session_title = playSession.title
-        request.session['playsession'] = playSession.id
-        return render_to_response('session.html', locals(), context_instance=RequestContext(request))
-    return render_to_response('index.html', locals(), context_instance=RequestContext(request))
+		user_list = []
+		song_list = SongStem.objects.all()
+		for song in song_list:
+			if user_list.count(song.name) == 0:
+				user_list.append(str(song.name))
+		else:
+			form = PlaySessionForm( request.POST or None )
+			if form.is_valid():
+					playSession = form.save()
+					session_title = playSession.title
+					request.session['playsession'] = playSession.id
+					return render_to_response('session.html', locals(), context_instance=RequestContext(request))
+			return render_to_response('index.html', locals(), context_instance=RequestContext(request))
 
 def session_get( request ):
     session_title = request.POST['title']
