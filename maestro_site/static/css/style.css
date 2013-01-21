@@ -34,7 +34,7 @@ body {
 	list-style-type:none;
 }
 
-#song_select_list li {
+#song_select_list option {
 	padding:10px;
 	width:200px;
 	text-align:center;

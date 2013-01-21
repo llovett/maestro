@@ -15,11 +15,11 @@
       </form>
 			<div id="song_select">
 				{% if user_list %}
-					<ul id="song_select_list">
+					<select id="song_select_list">
 						{% for song in user_list %}
-						<li> {{song}}</li>
+						<option value="{{song}}"> {{song}}</option>
 						{% endfor %}
-					</ul>
+					</select>
 				{% endif %}
 			</div>
       <div id="instrument_select">
