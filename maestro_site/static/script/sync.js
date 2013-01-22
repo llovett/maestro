@@ -24,19 +24,10 @@ $( document ).ready(
 	    }
 	});
 
-	// Initialize the audio player
-	var INSTRUMENTS = [
-	    [ "voice","hcts_vox.m4a" ],
-	    [ "bass","hcts_bass.m4a" ],
-	    [ "synth and strings","hcts_ss.m4a" ],
-	    [ "guitar","hcts_guitar.m4a" ],
-	    [ "drums","hcts_drums.m4a" ]
-	];
 	var STATIC_URL = "/static/";
-	var JPLAYER_ID = "#jquery_jplayer_1";
 	function sendToSelectedPlayers( command, params ) {
 	    var selected = new Array();
-	    $("#instrument_select_list .selected").each(
+	    $("#instrument_select .selected").each(
 		function (index, el) {
 		    selected.push( $(this).attr("class").split(' ')[0].split('_')[1] );
 		}
@@ -58,50 +49,6 @@ $( document ).ready(
 		else
 		    $( playerID ).jPlayer( command, params );
 	    }
-	}
-	// TODO: Is there a less hacky way to do this? Is this even hacky?
-	function getFile( index ) {
-	    if ( index <= INSTRUMENTS.length ) {
-		var playerID = "#jquery_jplayer_"+index;
-		$( playerID ).jPlayer({
-		    ready: function () {
-			$( this ).jPlayer("setMedia", {
-			    m4a: STATIC_URL+"audio/"+getFile( index+1 )
-			});
-		    },
-		    preload: "auto",
-		    solution: "flash,html",
-		    swfPath: STATIC_URL+"script",
-		    supplied: "m4a",
-		    cssSelectorAncestor: "#jp_container_"+index,
-		    wmode:"window"
-		});
-	    }
-	    if ( index > 1 )
-		return INSTRUMENTS[index-2][1];
-	    return "";
-	}
-	// This initializes all jPlayers in strict order!
-	getFile( 1 );
-	// Show instrument listing
-	for ( var i=0; i<INSTRUMENTS.length; i++ ) {
-	    var instrument = INSTRUMENTS[i][0];
-	    var newItem = $('<li></li>');
-	    newItem.addClass( "instrument_"+(i+1) );
-	    var newLink = $('<a></a>');
-	    newLink.attr( {href:"#"} );
-	    newLink.append( instrument );
-	    // Click handler for the link
-	    newItem.click(
-		function( event ) {
-		    event.preventDefault();
-		    $( this ).toggleClass( "selected" );
-		    var inst = $( this ).children().text();
-		    // TODO: do something with this?
-		}
-	    );
-	    newItem.append( newLink );
-	    $("#instrument_select_list").append( newItem );
 	}
 
 	// Bind user interface to handlers

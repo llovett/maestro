@@ -7,14 +7,11 @@
   <h2>{{ session_title }}</h2>
   <div id="song_select">
     {% if user_list %}
-      <form action="/song_get" method="GET">
-	<select name = "song_list" id="song_select_list">
-	  {% for song in user_list %}
-	    <option name="{{song}}" value="{{song}}"> {{song}}</option>
-	  {% endfor %}
-	  <input type="submit" value="Pick">
-	</select>
-      </form>
+      <select name = "song_list" id="song_select_list">
+	{% for song in user_list %}
+	  <option name="{{song}}" value="{{song}}"> {{song}}</option>
+	{% endfor %}
+      </select>
     {% endif %}
   </div>
 
