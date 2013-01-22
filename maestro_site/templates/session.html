@@ -18,28 +18,21 @@
     {% endif %}
   </div>
 
-  {% if song_chosen %}
-    <div id="music">
-      <div id="controls">
-	<form id="playpause" action="." method="POST">
-	  {% csrf_token %}
-	  <ul>
-	    <li><button id="playbutton">Play</button></li>
-	    <li><button id="resetbutton">Stop</button></li>
-	  </ul>
-	</form>
-	<select name = "stem_list" id="stem_select_list">
-	  {% for stem in song_stems %}
-	    <option name="{{stem.instr}}" value="{{stem.inst}}">{{stem.instr}}</option>
-	  {% endfor %}
-	</select>
-	<div id="instrument_select">
-	  <!-- javascript will insert instruments here -->
-	  <ul id="instrument_select_list">
-	  </ul>
-	</div>
+  <div id="music">
+    <div id="controls">
+      <form id="playpause" action="." method="POST">
+	{% csrf_token %}
+	<ul>
+	  <li><button id="playbutton">Play</button></li>
+	  <li><button id="resetbutton">Stop</button></li>
+	</ul>
+      </form>
+      <div id="instrument_select">
+	<!-- javascript will insert instruments here -->
+	<ul id="instrument_select_list">
+	</ul>
       </div>
-    {% endif %}
+    </div>
 
     <div id="status_text"></div>
     <div id="player">
