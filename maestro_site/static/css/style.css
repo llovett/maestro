@@ -1,6 +1,7 @@
 body {
-    font-family:Helvetica, sans-serif;
-    color:rgb(50,50,50);
+    background-color:#262429;
+    font-family:'Lato', sans-serif;
+    color:white;
 }
 
 #playpause ul {
@@ -29,14 +30,16 @@ body {
     background-color: orange;
 }
 
-/*** SONG SELECTION ***/
-#song_select_list{
-	list-style-type:none;
+#mainplayer {
+    background-color:#171619;
+    font-size:24pt;
+    width:300px;
+    height:175px;
 }
 
-#song_select_list option {
-	padding:10px;
-	width:200px;
-	text-align:center;
-	background-color: lightgray;
+.playpause_button {
+    width:40px;
+    height:40px;
+    margin-left:auto;
+    margin-right:auto;
 }

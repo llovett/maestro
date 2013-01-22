@@ -61,6 +61,34 @@ $(document).ready(
 		var songname = encodeURIComponent($("#song_select_list option:selected").text());
 		$.get( '/stemget/?title='+songname,
 		       function( data ) {
+			   // Show play/pause button
+			   $("#playpause").empty();
+			   var img = $("<img/>");
+			   img.attr( {"src":STATIC_URL+"img/play_large.png",
+				      "alt":"play"} );
+			   img.addClass( "playpause_button" );
+			   img.addClass( "play" );
+			   // click handler for play
+			   img.click(
+			       function( event ) {
+				   // play button
+				   if ( $(this).hasClass("play") ) {
+				       $.post( '/play' );
+				       $(this).removeClass("play");
+				       $(this).attr( {"src":STATIC_URL+"img/pause_large.png"} );
+				   }
+				   // pause button
+				   else {
+				       $(this).addClass("play");
+				       $(this).attr( {"src":STATIC_URL+"img/play_large.png"} );
+
+				       // TODO: this needs to pause ALL players on all machines
+				       sendToAllPlayers( "pause" );
+				   }
+			       }
+			   );
+			   $("#playpause").append( img );
+
 			   // Show controls
 			   $("#controls").show();
 
