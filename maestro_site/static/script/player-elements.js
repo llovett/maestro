@@ -65,7 +65,10 @@ $(document).ready(
 		    swfPath: STATIC_URL+"script",
 		    supplied: "m4a",
 		    cssSelectorAncestor: "#jp_container_"+index,
-		    wmode:"window"
+		    wmode:"window",
+		    timeupdate: function( event ) {
+			$("#timecontrol").slider( "option", "value", event.jPlayer.status.currentPercentAbsolute );
+		    }
 		});
 	    }
 	    if ( index > 1 ) {
@@ -138,7 +141,7 @@ $(document).ready(
 			       newdiv.click(
 				   function( event ) {
 				       event.preventDefault();
-				       $(this).toggleClass( "selected" );
+				       $(this).parent("li").toggleClass( "selected" );
 				   }
 			       );
 
