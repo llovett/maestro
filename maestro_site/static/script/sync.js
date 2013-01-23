@@ -90,7 +90,10 @@ $( document ).ready(
 	maestro.utils.pollPlayback = function() {
 	    $.get( "/poll",
 		   function( data ) {
-		       if ( data.ready ) {
+		       if ( data.redirect ) {
+			   window.location = "/";
+		       }
+		       else if ( data.ready ) {
 			   // Change to a pause button
 			   $('.playpause_button').removeClass("play");
 			   $('.playpause_button').attr( {"src":STATIC_URL+"img/pause_large.png"} );
@@ -116,7 +119,8 @@ $( document ).ready(
 				   maestro.utils.waitFor
 			       );
 			   }
-		       } else if ( maestro.playing ) {
+		       }
+		       else if ( maestro.playing ) {
 			   maestro.utils.stopPlayback();
 		       }
 		   }

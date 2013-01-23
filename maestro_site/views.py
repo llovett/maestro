@@ -100,7 +100,11 @@ def poll_playback( request ):
     '''
     # Check if we're ready to play or not
     response = { 'ready':False }
-    playSession = PlaySession.objects.get(id=request.session['playsession'])
+    try:
+        playSession = PlaySession.objects.get(id=request.session['playsession'])
+    except PlaySession.DoesNotExist:
+        response['redirect'] = True
+        return HttpResponse( json.dumps(response), mimetype='application/json' )
     if playSession.ready:
 	response['ready'] = True
         response['playtime'] = playSession.time()
