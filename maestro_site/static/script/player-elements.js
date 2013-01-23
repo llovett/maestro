@@ -193,12 +193,8 @@ $(document).ready(
 	maestro.utils.setSong = function( songname ) {
 	    var curSong = $(".track_title").text();
 	    if ( songname != curSong ) {
+
 		// Send a request to get the song stems
-
-		var artistname = INSTRUMENTS.length > 0 ? INSTRUMENTS[0].artist : "";
-		$(".track_title").text( songname );
-		$(".artist_title").text( artistname );
-
 		$.get( '/stemget/?title='+encodeURIComponent(songname),
 		       function( data ) {
 			   // Show play/pause button
@@ -275,6 +271,11 @@ $(document).ready(
 
 			   // Instantiate with audio
 			   getFile( 1 );
+
+			   // Set artist & track labels
+			   var artistname = INSTRUMENTS.length > 0 ? INSTRUMENTS[0].artist : "";
+			   $(".track_title").text( songname );
+			   $(".artist_title").text( artistname );
 		       }
 		     );
 	    }
