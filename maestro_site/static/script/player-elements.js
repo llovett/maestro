@@ -77,6 +77,17 @@ $(document).ready(
 	    return "";
 	}
 
+	function stopPlayback() {
+	    sendToAllPlayers( "pause", 0 );
+	    $.post( '/reset' );
+	    maestro.utils.playTimer = null;
+	    clearInterval( maestro.utils.dotCounter );
+	    maestro.playing = false;
+	    // $('#text_status').text("");
+	}
+	stopPlayback();
+	$("#volcontrol").slider( "option", "value", 75 );
+
 	// Hide controls by default
 	$("#controls").hide();
 
@@ -125,7 +136,7 @@ $(document).ready(
 			   $("#controls").show();
 
 			   // De-populate instrument select list
-			   $("#instrument_select").empty();
+			   $("#instrument_select_list").empty();
 
 			   // Populate instrument select list
 			   INSTRUMENTS = data.stems;
@@ -146,7 +157,7 @@ $(document).ready(
 			       );
 
 			       newitem.append( newdiv );
-			       $("#instrument_select").append( newitem );
+			       $("#instrument_select_list").append( newitem );
 			   }
 
 			   // Get rid of current jplayers

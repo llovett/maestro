@@ -33,13 +33,6 @@
 	  <img src="{{ STATIC_URL }}img/vol_icon_med.png" class="vol_icon" alt="volume" />
 	  <div id="volcontrol"></div></div>
       </div>
-      <form id="playpause" action="." method="POST">
-	{% csrf_token %}
-	<ul>
-	  <li><button id="playbutton">Play</button></li>
-	  <li><button id="resetbutton">Stop</button></li>
-	</ul>
-      </form>
       <div id="instrument_select">
 	<!-- javascript will insert instruments here -->
 	<ul id="instrument_select_list">

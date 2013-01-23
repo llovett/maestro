@@ -51,37 +51,6 @@ $( document ).ready(
 	    }
 	}
 
-	// Bind user interface to handlers
-	function stopPlayback() {
-	    sendToAllPlayers( "pause", 0 );
-	    $.post( '/reset' );
-	    maestro.utils.playTimer = null;
-	    clearInterval( maestro.utils.dotCounter );
-	    maestro.playing = false;
-	    // $('#text_status').text("");
-	}	    
-	$('#playbutton').click(
-	    function( event ) {
-		event.preventDefault();
-		$.post( '/play' );
-		// $('#text_status').text("playing");
-		maestro.utils.dotCounter = setInterval(
-		    function() {
-			// $('#status_text').text(
-			//     $('#status_text').text()+"."
-			// );
-		    },
-		    200
-		);
-	    }
-	);
-	$('#resetbutton').click(
-	    function( event ) {
-		event.preventDefault();
-		stopPlayback();
-	    }
-	);
-
 	// Initialize maestro utilities
 	maestro.utils = {};
 	maestro.utils.getTimeOffset = function( callback ) {
