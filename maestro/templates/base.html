@@ -15,9 +15,11 @@
     {% endblock %}      
   </head>
   <body>
-    <div id="header">
-      <h2>Maestro</h2>
-    </div>
+    {% block heading %}    
+      <div id="header">
+	<h2>Maestro</h2>
+      </div>
+    {% endblock %}
     <div id="content">
       {% block content %}
       {% endblock %}  

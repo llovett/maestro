@@ -1,21 +1,33 @@
 {% extends "base.html" %}
 {% block scripts %}
   <script src="{{ STATIC_URL }}script/sync.js" type="text/javascript"></script>
-  <script src="{{ STATIC_URL }}script/player-elements.js" type="text/javascript"></script>  
+  <script src="{{ STATIC_URL }}script/player-elements.js" type="text/javascript"></script>
 {% endblock %}
+{% block heading %}{% endblock %}
 {% block content %}
-  <h2>{{ session_title }}</h2>
+  <div id="session_controls">
+    <h2 class="session_name">{{ session_title }}</h2>
+    <img src="{{ STATIC_URL }}img/baton.png" alt="Maestro" class="baton_img" />
+    <p class="track_title"></p>
+    <p class="artist_title"></p>
 
-  <!-- user selects a song -->
-  <div id="song_select">
-    {% if user_list %}
-      <select name = "song_list" id="song_select_list">
-	<option name="title" value="Pick a song, any song...">Pick a song, any song...</option>
-	{% for song in user_list %}
-	  <option name="{{song}}" value="{{song}}"> {{song}}</option>
-	{% endfor %}
-      </select>
-    {% endif %}
+    <!-- user selects a song -->
+    <div id="song_select">
+      {% if user_list %}
+	<select name = "song_list" id="song_select_list">
+	  <option name="title" value="Pick a song, any song...">Pick a song, any song...</option>
+	  {% for song in user_list %}
+	    <option name="{{song}}" value="{{song}}"> {{song}}</option>
+	  {% endfor %}
+	</select>
+      {% endif %}
+    </div>
+
+    <form method="POST" action="{% url session_end %}">
+      {% csrf_token %}
+      <input type="submit" value="end session" id="end_session_button" />
+    </form>
+    
   </div>
 
   <!-- jplayers & controls -->
@@ -40,16 +52,9 @@
       </div>
     </div>
 
-    <div id="status_text"></div>
-
     <!-- the jplayers -->
     <div id="player">
     </div>
 
   </div><!-- closes #music -->
-
-  <form method="POST" action="{% url session_end %}">
-    {% csrf_token %}    
-    <input type="submit" value="end session" />
-  </form>    
-{% endblock %}  
+{% endblock %}

@@ -2,6 +2,22 @@ body {
     background-color:#262429;
     font-family:'Lato', sans-serif;
     color:white;
+    margin-top:0px;
+    margin-left:15px;
+}
+
+#content {
+    margin:0px;
+    padding:0px;
+}
+
+#session_controls {
+    float:left;
+    width:300px;
+    vertical-align:top;
+    padding:0px;
+    margin:0px;
+    display:inline;
 }
 
 #playpause {
@@ -35,6 +51,10 @@ body {
     margin:0px;
 }
 
+#instrument_select {
+    margin-top:32px;
+}
+
 #instrument_select .inst_listing {
     width:100%;
     height:100%;
@@ -56,8 +76,10 @@ body {
     font-size:24pt;
     width:400px;
     height:150px;
+    margin-top:32px;
     margin-left:auto;
     margin-right:auto;
+    margin-bottom:0px;
     padding-top:28px;
     padding-bottom:0px;
     border-radius:10px;
@@ -95,4 +117,51 @@ body {
     width:0px;
     height:0px;
     overflow:hidden;
+}
+
+.baton_img {
+    width:245px;
+    height:17px;
+    display:block;
+    position:absolute;
+    top:90px;
+    left:14px;
+}
+
+.track_title {
+    font-size:18pt;
+    font-weight:bold;
+    position:absolute;
+    left:14px;
+    top:110px;
+}
+
+.session_name {
+    position:absolute;
+    left:14px;
+    top:14px;
+    font-size:48pt;
+    vertical-align:top;
+    margin-top:0px;
+    padding-top:0px;
+    margin-bottom:0px;
+}
+
+.artist_title {
+    font-size:18pt;
+    position:absolute;
+    left:14px;
+    top:140px;
+}
+
+#end_session_button {
+    margin-top:10px;
+    position:absolute;
+    top:220px;
+}
+
+#song_select {
+    position:absolute;
+    left:14px;
+    top:200px;
 }

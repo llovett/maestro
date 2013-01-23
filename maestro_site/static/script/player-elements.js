@@ -93,10 +93,14 @@ $(document).ready(
 
 	$("#song_select_list").click(
 	    function() {
-		var songname = $("#song_select_list option:selected").text();
-		if ( songname === "Pick a song, any song..." ) return;
-		songname = encodeURIComponent( songname );
-		
+		var songtitle = $("#song_select_list option:selected").text();
+		if ( songtitle === "Pick a song, any song..." ) return;
+		songname = encodeURIComponent( songtitle );
+
+		var artistname = INSTRUMENTS.length > 0 ? INSTRUMENTS[0].artist : "";
+		$(".track_title").text( songtitle );
+		$(".artist_title").text( artistname );
+
 		if ( songname == "Pick a song, any song..." ) return;
 		$.get( '/stemget/?title='+songname,
 		       function( data ) {

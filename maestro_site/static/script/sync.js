@@ -66,9 +66,6 @@ $( document ).ready(
 		       var offset = (data.time - requestToResponse) - localMillis;
 		       maestro.utils.clientServerTimeOffset = offset;
 
-		       // For debugging only
-		       $('#status_text').text("server: "+data.time+", local: "+localMillis+"; your time offset is "+offset);
-
 		       // Continue doing what we need, now having the offset calculated for us
 		       callback();
 		   }
@@ -96,7 +93,6 @@ $( document ).ready(
 				       sendToSelectedPlayers( "play" );
 				       maestro.playing = true;
 				       clearInterval( maestro.utils.dotCounter );
-				       // $('#status_text').text("");
 				   },
 				   // How long to wait to play (calculated above)
 				   maestro.utils.waitFor
