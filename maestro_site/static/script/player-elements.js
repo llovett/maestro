@@ -10,7 +10,12 @@ $(document).ready(
 	$("#volcontrol").slider( {
 	    min:0,
 	    max:100,
-	    step:1
+	    step:1,
+	    stop: function( event, ui ) {
+		// max value of slider is 100, need a float between 0 and 1
+		var vol = ui.value / 100.0;
+		sendToAllPlayers( "volume", vol );
+	    }
 	} );
 	
 	    
