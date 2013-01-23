@@ -143,7 +143,7 @@ a {
     font-weight:bold;
     position:absolute;
     left:14px;
-    top:85px;
+    top:105px;
 }
 
 .session_name {
@@ -165,7 +165,11 @@ a {
     font-size:14pt;
     position:absolute;
     left:14px;
-    top:115px;
+    top:130px;
+}
+
+.artist_title, .track_title {
+    color:white;
 }
 
 #end_session_button {

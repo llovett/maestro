@@ -37,14 +37,14 @@ def get_stems( request ):
     # Get the song name, grab stems
     songname = request.GET.get('title')
     songname = songname.strip()
-    stems = {}
+    stems = {'stems':[]}
     if songname:
         encoder = SongStemEncoder()
         songStems = SongStem.objects.filter( name=str(songname) )
         for s in songStems:
             s.num_access += 1
             s.save()
-            stems['stems'] = encoder.default(s)
+            stems['stems'].append( encoder.default(s) )
 
     # Set the song title for the session
     playSession.songTitle = songname
