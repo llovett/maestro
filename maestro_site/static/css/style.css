@@ -238,14 +238,13 @@ a {
 }
 
 #button_create, #button_join {
-    margin-top:10px;
+    margin:10px 0px 10px 0px;
     width:100px;
     height:35px;
 }
 
 .help_text {
     font-style:italic;
-    color:80788c;
     font-size:10pt;
 }
 

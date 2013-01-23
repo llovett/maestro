@@ -37,7 +37,7 @@ class SongStem(models.Model):
     name = models.CharField(max_length=60)
     instr = models.CharField(max_length=30)#Instrument
     faudio = models.CharField(max_length=50)#Audio file name
-    num_access = models.IntegerField()
+    num_access = models.IntegerField( default=0 )
     artist = models.CharField(max_length=40)
 
     def __unicode__( self ):
