@@ -1,5 +1,21 @@
 $(document).ready(
     function() {
+	// Set up some of the UI elements
+	$("#timecontrol").slider( {
+	    min:0,
+	    max:100,
+	    step:1,
+	    disabled:true
+	} );
+	$("#volcontrol").slider( {
+	    min:0,
+	    max:100,
+	    step:1
+	} );
+	
+	    
+
+	
 	// This will be set once the user selects a song
 	INSTRUMENTS = [];
 
