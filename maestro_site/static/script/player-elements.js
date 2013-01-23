@@ -144,9 +144,17 @@ $(document).ready(
 
 			   // Populate instrument select list
 			   INSTRUMENTS = data.stems;
+			   var COLORS = [
+			       'd54a61',
+			       'f8b950',
+			       '908f63',
+			       '71a1c9',
+			       '8873b1'
+			   ];
 			   for ( var i=1; i<=INSTRUMENTS.length; i++ ) {
 			       var newitem = $("<li></li>");
 			       newitem.addClass( "instrument_"+i );
+			       newitem.css( "background-color", COLORS[(i-1)%INSTRUMENTS.length] );
 			       var newdiv = $("<div></div>");
 			       newdiv.addClass("inst_listing");
 			       var newlink = $("<a></a>");
@@ -157,6 +165,7 @@ $(document).ready(
 				   function( event ) {
 				       event.preventDefault();
 				       $(this).parent("li").toggleClass( "selected" );
+				       $(this).parent("li").toggleClass( "not_selected" );
 				   }
 			       );
 

@@ -47,7 +47,7 @@ body {
     width:100%;
     height:82px;
     text-align:center;
-    background-color:orange;
+    background-color:white;
     margin:0px;
 }
 
@@ -58,16 +58,23 @@ body {
 #instrument_select .inst_listing {
     width:100%;
     height:100%;
+    vertical-align:center;
+    padding-top:28px;
 }
 
 #instrument_select .selected {
     background-color: lightgreen;
+    color:white !important;
 }
 
 #instrument_select a {
     text-decoration:none;
     width:100%;
     height:100%;
+    color:80788c;
+    font-weight:bold;
+    font-family: "Helvetica", sans-serif;
+    font-size:16pt;
 }
 
 
