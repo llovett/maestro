@@ -15,20 +15,32 @@ body {
 }
 
 /*** INSTRUMENT SELECTION ***/
-#instrument_select_list {
+#instrument_select {
     list-style-type:none;
 }
 
-#instrument_select_list li {
-    padding:20px;
-    width:200px;
+#instrument_select li {
+    width:400px;
+    height:82px;
     text-align:center;
-    background-color: lightgray;
+    background-color:orange;
 }
 
-#instrument_select_list .selected {
-    background-color: orange;
+#instrument_select .inst_listing {
+    width:100%;
+    height:100%;
 }
+
+#instrument_select .selected {
+    background-color: lightgreen;
+}
+
+#instrument_select a {
+    text-decoration:none;
+    width:100%;
+    height:100%;
+}
+
 
 #mainplayer {
     background-color:#171619;

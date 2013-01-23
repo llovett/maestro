@@ -2,3 +2,4 @@
 *.pyc
 *.psd
 maestro/static
+maestro_db

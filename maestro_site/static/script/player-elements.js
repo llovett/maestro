@@ -108,16 +108,20 @@ $(document).ready(
 			   for ( var i=1; i<=INSTRUMENTS.length; i++ ) {
 			       var newitem = $("<li></li>");
 			       newitem.addClass( "instrument_"+i );
+			       var newdiv = $("<div></div>");
+			       newdiv.addClass("inst_listing");
 			       var newlink = $("<a></a>");
 			       newlink.attr( {href:"#" } );
 			       newlink.append( INSTRUMENTS[i-1].instr );
-			       newitem.click(
+			       newdiv.append( newlink );
+			       newdiv.click(
 				   function( event ) {
 				       event.preventDefault();
 				       $(this).toggleClass( "selected" );
 				   }
 			       );
-			       newitem.append( newlink );
+
+			       newitem.append( newdiv );
 			       $("#instrument_select").append( newitem );
 			   }
 
