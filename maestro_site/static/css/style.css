@@ -113,7 +113,7 @@ body {
     width:16px;
     height:16px;
     border-style:none;
-    margin-left:10px;
+    margin-left:21px;
     float:left;
 }
 
@@ -128,46 +128,50 @@ body {
     height:17px;
     display:block;
     position:absolute;
-    top:90px;
+    top:80px;
     left:14px;
 }
 
 .track_title {
-    font-size:18pt;
+    font-size:14pt;
     font-weight:bold;
     position:absolute;
     left:14px;
-    top:110px;
+    top:85px;
 }
 
 .session_name {
     position:absolute;
     left:14px;
     top:14px;
-    font-size:48pt;
+    font-size:36pt;
     vertical-align:top;
     margin-top:0px;
     padding-top:0px;
     margin-bottom:0px;
+    width:300px;
+    white-space: nowrap;
+    overflow:hidden;
+    text-overflow: ellipsis;
 }
 
 .artist_title {
-    font-size:18pt;
+    font-size:14pt;
     position:absolute;
     left:14px;
-    top:140px;
+    top:115px;
 }
 
 #end_session_button {
     margin-top:10px;
     position:absolute;
-    top:220px;
+    top:190px;
 }
 
 #song_select {
     position:absolute;
     left:14px;
-    top:200px;
+    top:165px;
 }
 
 .inst_1  {
