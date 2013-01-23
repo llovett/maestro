@@ -84,6 +84,10 @@ $(document).ready(
 
 				       // TODO: this needs to pause ALL players on all machines
 				       sendToAllPlayers( "pause" );
+				       $.post( '/reset' );
+				       maestro.utils.playTimer = null;
+				       clearInterval( maestro.utils.dotCounter );
+				       maestro.playing = false;
 				   }
 			       }
 			   );
