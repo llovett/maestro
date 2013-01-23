@@ -58,7 +58,11 @@ $(document).ready(
 
 	$("#song_select_list").click(
 	    function() {
-		var songname = encodeURIComponent($("#song_select_list option:selected").text());
+		var songname = $("#song_select_list option:selected").text();
+		if ( songname === "Pick a song, any song..." ) return;
+		songname = encodeURIComponent( songname );
+		
+		if ( songname == "Pick a song, any song..." ) return;
 		$.get( '/stemget/?title='+songname,
 		       function( data ) {
 			   // Show play/pause button
