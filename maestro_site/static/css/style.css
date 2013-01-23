@@ -1,9 +1,15 @@
 body {
     background-color:#262429;
     font-family:'Lato', sans-serif;
-    color:white;
+    color:b0b0b0;
     margin-top:0px;
     margin-left:15px;
+}
+
+a {
+    color:71a1c9;
+    font-weight:bold;
+    text-decoration:none;
 }
 
 #content {
@@ -196,4 +202,66 @@ body {
 
 .deselected {
     background-color:white !important;
+}
+
+.maestro_header_img, .baton_header_img {
+    height:auto;
+    display:block;
+    margin:20px 0px 20px 0px;
+}
+
+.big_header {
+    width:408px;
+}
+
+.small_header {
+    width:204px;
+}
+
+.center {
+    text-align:center;
+    margin-left:auto;
+    margin-right:auto;
+}
+
+#header_imgs {
+    width:408px;
+    margin:204px auto 0 auto;
+}
+
+#id_title {
+    width:408px;
+    height:82px;
+    color:#a3a3a3;
+    font-family: "Helvetica", sans-serif;
+    font-size:16pt;
+}
+
+#button_create, #button_join {
+    margin-top:10px;
+    width:100px;
+    height:35px;
+}
+
+.help_text {
+    font-style:italic;
+    color:80788c;
+    font-size:10pt;
+}
+
+.navlink {
+    font-size:16pt;
+}
+
+p {
+    margin:0px;
+    padding:0px;
+}
+
+h3 {
+    margin:20px 0px 10px 0px;
+}
+
+h1, h2, h3 {
+    color:white;
 }

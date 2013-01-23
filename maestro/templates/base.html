@@ -9,17 +9,22 @@
     <link href='http://fonts.googleapis.com/css?family=Lato:400,900' rel='stylesheet' type='text/css'>
     <script src="{{ STATIC_URL }}script/jquery.js" type="text/javascript"></script>
     <script src="{{ STATIC_URL }}script/jquery.cookie.js" type="text/javascript"></script>
-    <script src="{{ STATIC_URL }}script/jquery.jplayer.min.js" type="text/javascript"></script>
     <script src="//ajax.googleapis.com/ajax/libs/jqueryui/1.9.2/jquery-ui.min.js"></script>
     {% block scripts %}
     {% endblock %}      
   </head>
   <body>
-    {% block heading %}    
-      <div id="header">
-	<h2>Maestro</h2>
+    {% block header %}
+    <div style="text-align:center">
+      <div style="margin-bottom:40px">
+	<a href="{% url main_page %}">	
+	  <img src="{{ STATIC_URL }}img/maestro_header.png" class="maestro_header_img small_header" alt="Maestro" />
+	  <img src="{{ STATIC_URL }}img/baton.png" class="baton_header_img small_header" alt="baton" />
+	</a>	  
+	<h1 style="position:absolute; top:20px; left:250px">{% block heading %}{% endblock %}</h1>
       </div>
-    {% endblock %}
+    {% endblock %}      
+    </div>    
     <div id="content">
       {% block content %}
       {% endblock %}  

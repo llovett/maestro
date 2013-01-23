@@ -8,6 +8,7 @@ from maestro_site import views
 
 urlpatterns = patterns('',
                        url( r'^$', views.session_new, name="main_page" ),
+                       url( r'^about/', direct_to_template, {'template':'about.html'}, name="about" ),
                        url( r'^session/new/$', views.session_new, name="session_new" ),
                        url( r'^session/join/$', views.session_get, name="session_join" ),
                        url( r'^session/end/$', views.session_destroy, name="session_end" ),

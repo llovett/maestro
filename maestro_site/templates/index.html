@@ -1,23 +1,35 @@
 {% extends "base.html" %}
 {% block scripts %}
-<script src="{{ STATIC_URL }}/script/index.js" type="text/javascript"></script>
-{% endblock %}  
+  <script src="{{ STATIC_URL }}/script/index.js" type="text/javascript"></script>
+{% endblock %}
+{% block header %}{% endblock %}
 {% block content %}
-  <!-- messages -->  
-  {% if messages %}
-    <ul class="messages">
-      {% for message in messages %}
-	<li{% if message.tags %} class="{{ message.tags }}"{% endif %}>{{ message }}</li>
-      {% endfor %}
-    </ul>
-  {% endif %}
+  <div class="center">
+    <div id="header_imgs">    
+      <img src="{{ STATIC_URL }}img/maestro_header.png" alt="Maestro" class="maestro_header_img big_header" />
+      <img src="{{ STATIC_URL }}img/baton.png" alt="baton" class="baton_header_img big_header" />
+    </div>
 
-  <!-- session get/create form -->  
-  <form action="{% url session_new %}" method="POST" id="sessions_form">
-    {% csrf_token %}
-    {{ form }}
-    <input type="hidden" id="action_type" value="create" />
-    <input type="button" value="Create" id="button_create" />
-    <input type="button" value="Join" id="button_join" />
-  </form>    
-{% endblock %}  
+    <!-- messages -->
+    {% if messages %}
+      <ul class="messages">
+	{% for message in messages %}
+	  <li{% if message.tags %} class="{{ message.tags }}"{% endif %}>{{ message }}</li>
+	{% endfor %}
+      </ul>
+    {% endif %}
+
+    <!-- session get/create form -->
+    <form action="{% url session_new %}" method="POST" id="sessions_form">
+      {% csrf_token %}
+      {{ form }}
+      <input type="hidden" id="action_type" value="create" />
+      <br />
+      <input type="button" value="Create" id="button_create" />
+      <input type="button" value="Join" id="button_join" />
+      <p class="help_text">Create a new Listening Room for other devices to
+	join<br />or<br />Join a Listening Room started on another device</p>
+    </form>
+    <a class="navlink" href="{% url about %}">about</a>
+  </div>
+{% endblock %}

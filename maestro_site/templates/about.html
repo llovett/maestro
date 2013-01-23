@@ -1,0 +1,37 @@
+{% extends "base.html" %}
+{% block title %}about{% endblock %}
+{% block heading %}about{% endblock %}
+{% block content %}
+  <h3>What is Maestro?</h3>
+  <p>Maestro turns all your mobile devices into a speaker system, letting you control which instruments each speaker plays.</p>
+  <h3>Who Made Maestro?</h3>
+  <p>Maestro is Oberlin College students:
+  <ul>
+    <li><a href="http://about.me/maxmellman">Max Mellman</a>, Founder & Designer</li>
+    <li><a href="http://www.linkedin.com/pub/luke-lovett/47/174/96/">Luke Lovett</a>, Lead Developer</li>
+    <li><a href="http://www.linkedin.com/profile/view?id=183836160&locale=en_US&trk=tyah">Richard Townsend</a>, Assistant Developer</li>
+    <li><a href="www.linkedin.com/pub/joshua-selesnick/64/312/532/">Joshua Selesnick</a>, Programming Consultant</li>
+  </ul>
+  <p>You can <a href="https://twitter.com/BeTheMaestro">follow us on Twitter</a> or
+    <a href="https://www.facebook.com/pages/Maestro/121162374722554?fref=ts">like us on Facebook</a>.
+  </p>
+
+  <h3>Maestro is Currently in Alpha</h3>
+  <p>At this time, we cannot guarantee the success of your listening sessions. You may find a higher success rate if you use two laptops, and are connected to the same network, but you are welcome to test other devices in larger quantities as well. We will continue optimizing our synchronization technology. Have ideas? Get in touch!</p>
+
+  <h3>Maestro Will Not Always Be Free</h3>
+  <p>But we have a while to go before we get there</p>
+
+  <h3>Thank You</h3>
+  <p>To <a href="http://www.decisiondesk.com/company/">John Knific</a>, <a href="http://new.oberlin.edu/conservatory/dean/dean-detail.dot?id=3495149">Andrea Kalyn</a>, <a href="http://avantot.com/wordpress/">MaryClare Brzytwa</a>, the folks at <a href="http://oberlin.edu/launchu/about.html">LaunchU</a>, and all the artists who have provided their music for your listening pleasure.</p>
+
+  <h3>Feedback</h3>
+  <p>We want your feedback! Please send all comments to <a href="mailto:MaestroComments@gmail.com?Subject=Feedback">MaestroComments@gmail.com</a>. Thank you!</p>
+
+  <h3>Want to Submit Your Own Material</h3>
+  <p>Share your track stems with us on Dropbox at <a href="mailto:MaestroComments@gmail.com?Subject=Submitting%20Track%20Stems">MaestroComments@gmail.com</a> in a folder with Artist name, Track name, and Stem names.</p>
+
+  <div class="center" style="margin-top:20px">
+    <a class="navlink" href="{% url main_page %}">home</a>
+  </div>
+{% endblock %}
