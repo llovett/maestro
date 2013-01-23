@@ -108,8 +108,8 @@ $(document).ready(
 	    $.get( "/poll",
 		   function( data ) {
 		       // Do we have a song title yet?
-		       if ( data.songtitle ) {
-			   
+		       if ( data.songtitle && data.songtitle != $(".track_title").text() ) {
+			   maestro.utils.setSong( data.songtitle );
 		       }
 		       // Go to the root of the website if we get the 'redirect' message from the server
 		       if ( data.redirect ) {
@@ -190,18 +190,16 @@ $(document).ready(
 	maestro.utils.stopPlayback();
 	$("#volcontrol").slider( "option", "value", 75 );
 
-	$("#song_select_list").click(
-	    function() {
-		var songtitle = $("#song_select_list option:selected").text();
-		if ( songtitle === "Pick a song, any song..." ) return;
-		songname = encodeURIComponent( songtitle );
+	maestro.utils.setSong = function( songname ) {
+	    var curSong = $(".track_title").text();
+	    if ( songname != curSong ) {
+		// Send a request to get the song stems
 
 		var artistname = INSTRUMENTS.length > 0 ? INSTRUMENTS[0].artist : "";
-		$(".track_title").text( songtitle );
+		$(".track_title").text( songname );
 		$(".artist_title").text( artistname );
 
-		if ( songname == "Pick a song, any song..." ) return;
-		$.get( '/stemget/?title='+songname,
+		$.get( '/stemget/?title='+encodeURIComponent(songname),
 		       function( data ) {
 			   // Show play/pause button
 			   $("#playpause").empty();
@@ -279,6 +277,14 @@ $(document).ready(
 			   getFile( 1 );
 		       }
 		     );
+	    }
+	}
+
+	$("#song_select_list").click(
+	    function() {
+		var songtitle = $("#song_select_list option:selected").text();
+		if ( songtitle === "Pick a song, any song..." ) return;
+		maestro.utils.setSong( songtitle );
 	    }
 	);
     }
