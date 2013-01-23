@@ -47,7 +47,6 @@ body {
     width:100%;
     height:82px;
     text-align:center;
-    background-color:white;
     margin:0px;
 }
 
@@ -63,8 +62,7 @@ body {
 }
 
 #instrument_select .selected {
-    background-color: lightgreen;
-    color:white !important;
+    color:white;
 }
 
 #instrument_select a {
@@ -171,4 +169,28 @@ body {
     position:absolute;
     left:14px;
     top:200px;
+}
+
+.inst_1  {
+    background-color:#d54a61;
+}
+
+.inst_2  {
+    background-color:#f8b950;
+}
+
+.inst_3  {
+    background-color:#908f63;
+}
+
+.inst_4  {
+    background-color:#71a1c9;
+}
+
+.inst_5  {
+    background-color:#8873b1;
+}
+
+.deselected {
+    background-color:white !important;
 }
