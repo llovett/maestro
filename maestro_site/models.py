@@ -6,6 +6,7 @@ class PlaySession (models.Model):
     '''
     Models a playback session among multiple machines.
     '''
+    # Title of the session
     title = models.CharField(max_length=100, unique=True)
 
     # ---------- originally from PlayState model:
@@ -18,6 +19,8 @@ class PlaySession (models.Model):
     startTime = models.DateTimeField( null=True, blank=True )
     # What position through playback we should begin playing
     startPosition = models.FloatField( null=True, blank=True )
+    # What song we are playing right now
+    songTitle = models.CharField(blank=True, null=True, max_length=500)
 
     def time( self ):
         if self.startTime:

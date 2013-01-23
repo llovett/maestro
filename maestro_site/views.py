@@ -27,13 +27,12 @@ def session_new( request ):
 
 def get_stems( request ):
     '''
-    Returns all the stems for a particular song.
+    Returns all the stems for a particular song, set the song for the session.
     '''
     # Make sure our session is clean
     playSession = PlaySession.objects.get(id=request.session['playsession'])
     playSession.startPosition = 0.0
     playSession.ready = False
-    playSession.save()
 
     # Get the song name, grab stems
     songname = request.GET.get('title')
@@ -42,6 +41,11 @@ def get_stems( request ):
     if songname:
         encoder = SongStemEncoder()
         stems['stems'] = [encoder.default(s) for s in SongStem.objects.filter( name=str(songname) )]
+
+    # Set the song title for the session
+    playSession.songTitle = songname
+    playSession.save()
+
     return HttpResponse( json.dumps( stems ),
                          mimetype='application/json' )
 
@@ -105,6 +109,8 @@ def poll_playback( request ):
     except PlaySession.DoesNotExist:
         response['redirect'] = True
         return HttpResponse( json.dumps(response), mimetype='application/json' )
+    if playSession.songTitle:
+        response['songtitle'] = playSession.songTitle
     if playSession.ready:
 	response['ready'] = True
         response['playtime'] = playSession.time()
