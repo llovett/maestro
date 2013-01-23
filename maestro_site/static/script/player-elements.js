@@ -3,7 +3,7 @@ $(document).ready(
 	// Set up some of the UI elements
 	$("#timecontrol").slider( {
 	    min:0,
-	    max:100,
+	    max:10000,
 	    step:1,
 	    disabled:true
 	} );
@@ -67,7 +67,9 @@ $(document).ready(
 		    cssSelectorAncestor: "#jp_container_"+index,
 		    wmode:"window",
 		    timeupdate: function( event ) {
-			$("#timecontrol").slider( "option", "value", event.jPlayer.status.currentPercentAbsolute );
+			maestro.playback = maestro.playback || {};
+			maestro.playback.completed = event.jPlayer.status.currentPercentAbsolute*100.0;
+			$("#timecontrol").slider( "option", "value", maestro.playback.completed );
 		    }
 		});
 	    }
@@ -77,19 +79,8 @@ $(document).ready(
 	    return "";
 	}
 
-	function stopPlayback() {
-	    sendToAllPlayers( "pause", 0 );
-	    $.post( '/reset' );
-	    maestro.utils.playTimer = null;
-	    clearInterval( maestro.utils.dotCounter );
-	    maestro.playing = false;
-	    // $('#text_status').text("");
-	}
-	stopPlayback();
+	maestro.utils.stopPlayback();
 	$("#volcontrol").slider( "option", "value", 75 );
-
-	// Hide controls by default
-	// $("#controls").hide();
 
 	$("#song_select_list").click(
 	    function() {
@@ -127,7 +118,8 @@ $(document).ready(
 
 				       // TODO: this needs to pause ALL players on all machines
 				       sendToAllPlayers( "pause" );
-				       $.post( '/reset' );
+				       $.post( '/reset',
+					       { 'time':maestro.playback.completed/100.0 } );
 				       maestro.utils.playTimer = null;
 				       clearInterval( maestro.utils.dotCounter );
 				       maestro.playing = false;

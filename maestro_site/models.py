@@ -16,6 +16,8 @@ class PlaySession (models.Model):
     ready = models.BooleanField( default=False )
     # When will we start playing (+ LATENCY_TIME_MS)?
     startTime = models.DateTimeField( null=True, blank=True )
+    # What position through playback we should begin playing
+    startPosition = models.FloatField( null=True, blank=True )
 
     def time( self ):
         if self.startTime:

@@ -6,16 +6,11 @@ from maestro_site.models import PlaySession, SongStem, SongStemEncoder
 import datetime
 import json
 from forms import PlaySessionForm
-
-
-def song_get( request ):
-    if 'song_list' in request.GET and request.GET['song_list']:
-	song_thing = request.GET['song_list']
-	song_stems = SongStem.objects.filter(name=song_thing)
-	song_chosen= 1
-	return render_to_response('session.html', locals(), context_instance=RequestContext(request))
     
 def session_new( request ):
+    '''
+    Starts a new playing sesssion.
+    '''
     user_list = []
     song_list = SongStem.objects.all()
     for song in song_list:
@@ -31,6 +26,16 @@ def session_new( request ):
     return render_to_response('index.html', locals(), context_instance=RequestContext(request))
 
 def get_stems( request ):
+    '''
+    Returns all the stems for a particular song.
+    '''
+    # Make sure our session is clean
+    playSession = PlaySession.objects.get(id=request.session['playsession'])
+    playSession.startPosition = 0.0
+    playSession.ready = False
+    playSession.save()
+
+    # Get the song name, grab stems
     songname = request.GET.get('title')
     songname = songname.strip()
     stems = {}
@@ -41,6 +46,9 @@ def get_stems( request ):
                          mimetype='application/json' )
 
 def session_get( request ):
+    '''
+    Gets (joins) a session
+    '''
     user_list = []
     song_list = SongStem.objects.all()
     for song in song_list:
@@ -58,6 +66,9 @@ def session_get( request ):
     return render_to_response('session.html', locals(), context_instance=RequestContext(request))
 
 def session_destroy( request ):
+    '''
+    Destroys (leaves) a session
+    '''
     try:
 	playSession = PlaySession.objects.get(id=request.session['playsession'])
         playSession.delete()
@@ -74,6 +85,9 @@ def time( request ):
 			 mimetype="application/json" )
 
 def start_playback( request ):
+    '''
+    The 'play' action
+    '''
     playSession = PlaySession.objects.get(id=request.session['playsession'])
     playSession.ready = True
     playSession.startTime = datetime.datetime.now()
@@ -81,16 +95,28 @@ def start_playback( request ):
     return HttpResponse()
 
 def poll_playback( request ):
+    '''
+    Information returned to clients on a regular polling basis
+    '''
     # Check if we're ready to play or not
     response = { 'ready':False }
     playSession = PlaySession.objects.get(id=request.session['playsession'])
     if playSession.ready:
 	response['ready'] = True
         response['playtime'] = playSession.time()
+        response['playposition'] = playSession.startPosition
     return HttpResponse( json.dumps(response), mimetype='application/json' )
 
 def reset_playback( request ):
+    '''
+    The "pause" action
+    '''
+    import sys
+    sys.stderr.write("resetting playback")
+    time = float(request.POST['time']) if 'time' in request.POST else None
     playSession = PlaySession.objects.get(id=request.session['playsession'])
+    if time:
+        playSession.startPosition = time
     playSession.ready = False
     playSession.save()
     return HttpResponse()

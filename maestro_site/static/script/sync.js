@@ -72,6 +72,18 @@ $( document ).ready(
 		 );
 	};
 
+	/**
+	 * pauses playback in this browser
+	 **/
+	maestro.utils.stopPlayback = function() {
+	    sendToAllPlayers( "pause" );
+	    $.post( '/reset' );
+	    maestro.utils.playTimer = null;
+	    maestro.playing = false;
+	    $('.playpause_button').addClass("play");
+	    $('.playpause_button').attr( {"src":STATIC_URL+"img/play_large.png"} );
+	}
+
 	// How long to wait until playing, when ready to play
 	maestro.utils.waitFor = 0.0;
 	maestro.utils.playTimer = null;
@@ -79,6 +91,10 @@ $( document ).ready(
 	    $.get( "/poll",
 		   function( data ) {
 		       if ( data.ready ) {
+			   // Change to a pause button
+			   $('.playpause_button').removeClass("play");
+			   $('.playpause_button').attr( {"src":STATIC_URL+"img/pause_large.png"} );
+
 			   // This depends on getTimeOffset() being called already, since we depend
 			   // on the value of clientServerTimeOffset here.
 			   maestro.utils.waitFor =
@@ -90,16 +106,18 @@ $( document ).ready(
 			       maestro.utils.playTimer = setTimeout(
 				   // Function to click play button
 				   function() {
+				       if ( data.playposition ) {
+					   sendToSelectedPlayers( "playHead", data.playposition );
+				       }
 				       sendToSelectedPlayers( "play" );
 				       maestro.playing = true;
-				       clearInterval( maestro.utils.dotCounter );
 				   },
 				   // How long to wait to play (calculated above)
 				   maestro.utils.waitFor
 			       );
 			   }
 		       } else if ( maestro.playing ) {
-			   stopPlayback();
+			   maestro.utils.stopPlayback();
 		       }
 		   }
 		 );
