@@ -21,8 +21,7 @@ body {
 }
 
 #playpause {
-    margin-right:auto;
-    margin-left:auto;
+    text-align:center;
 }
 
 #playpause ul {
@@ -61,8 +60,8 @@ body {
     padding-top:28px;
 }
 
-#instrument_select .selected {
-    color:white;
+.selected a {
+    color:white !important;
 }
 
 #instrument_select a {

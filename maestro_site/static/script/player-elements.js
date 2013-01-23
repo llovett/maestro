@@ -89,7 +89,7 @@ $(document).ready(
 	$("#volcontrol").slider( "option", "value", 75 );
 
 	// Hide controls by default
-	$("#controls").hide();
+	// $("#controls").hide();
 
 	$("#song_select_list").click(
 	    function() {
