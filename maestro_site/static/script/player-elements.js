@@ -190,48 +190,53 @@ $(document).ready(
 	maestro.utils.stopPlayback();
 	$("#volcontrol").slider( "option", "value", 75 );
 
+	// What happens when a user selects any instrumental parts
+	maestro.utils.partsSelected = function() {
+	    if ( maestro.utils.playButtonShowing ) return;
+	    $("#playpause").empty();
+
+	    var img = $("<img/>");
+	    img.attr( {"src":STATIC_URL+"img/play_large.png",
+		       "alt":"play"} );
+	    img.addClass( "playpause_button" );
+	    img.addClass( "play" );
+	    // click handler for play
+	    img.click(
+		function( event ) {
+		    // play button
+		    if ( $(this).hasClass("play") ) {
+			$.post( '/play' );
+			$(this).removeClass("play");
+			$(this).attr( {"src":STATIC_URL+"img/pause_large.png"} );
+		    }
+		    // pause button
+		    else {
+			$(this).addClass("play");
+			$(this).attr( {"src":STATIC_URL+"img/play_large.png"} );
+
+			// TODO: this needs to pause ALL players on all machines
+			sendToAllPlayers( "pause" );
+			$.post( '/reset',
+				{ 'time':maestro.playback.completed/100.0 } );
+			maestro.utils.playTimer = null;
+			clearInterval( maestro.utils.dotCounter );
+			maestro.playing = false;
+		    }
+		}
+	    );
+	    $("#playpause").append( img );
+	    maestro.utils.playButtonShowing = true;
+	}
+
 	maestro.utils.setSong = function( songname ) {
 	    var curSong = $(".track_title").text();
 	    if ( songname != curSong ) {
-
 		// Send a request to get the song stems
 		$.get( '/stemget/?title='+encodeURIComponent(songname),
 		       function( data ) {
-			   // Show play/pause button
+			   // Show "Select your parts" message
 			   $("#playpause").empty();
-			   var img = $("<img/>");
-			   img.attr( {"src":STATIC_URL+"img/play_large.png",
-				      "alt":"play"} );
-			   img.addClass( "playpause_button" );
-			   img.addClass( "play" );
-			   // click handler for play
-			   img.click(
-			       function( event ) {
-				   // play button
-				   if ( $(this).hasClass("play") ) {
-				       $.post( '/play' );
-				       $(this).removeClass("play");
-				       $(this).attr( {"src":STATIC_URL+"img/pause_large.png"} );
-				   }
-				   // pause button
-				   else {
-				       $(this).addClass("play");
-				       $(this).attr( {"src":STATIC_URL+"img/play_large.png"} );
-
-				       // TODO: this needs to pause ALL players on all machines
-				       sendToAllPlayers( "pause" );
-				       $.post( '/reset',
-					       { 'time':maestro.playback.completed/100.0 } );
-				       maestro.utils.playTimer = null;
-				       clearInterval( maestro.utils.dotCounter );
-				       maestro.playing = false;
-				   }
-			       }
-			   );
-			   $("#playpause").append( img );
-
-			   // Show controls
-			   $("#controls").show();
+			   $("#playpause").text("Select Your Parts");
 
 			   // De-populate instrument select list
 			   $("#instrument_select_list").empty();
@@ -255,6 +260,9 @@ $(document).ready(
 				       var listitem = $(this).parent("li");
 				       listitem.toggleClass( "selected" );
 				       listitem.toggleClass( "deselected" );
+				       if ( $("#instrument_select_list .selected").length > 0 ) {
+					   maestro.utils.partsSelected();
+				       }
 				   }
 			       );
 
@@ -281,6 +289,7 @@ $(document).ready(
 	    }
 	}
 
+	// What happens when the user selects a song
 	$("#song_select_list").click(
 	    function() {
 		var songtitle = $("#song_select_list option:selected").text();
