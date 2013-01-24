@@ -17,7 +17,7 @@
 	<select name = "song_list" id="song_select_list">
 	  <option name="title" value="Pick a song, any song...">Pick a song, any song...</option>
 	  {% for song in user_list %}
-	    <option name="{{song}}" value="{{song}}"> {{song}}</option>
+	    <option name="song.name" value="song.name">{{song.name}} ({{song.artist}})</option>
 	  {% endfor %}
 	</select>
       {% endif %}

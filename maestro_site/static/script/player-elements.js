@@ -294,6 +294,18 @@ $(document).ready(
 	    function() {
 		var songtitle = $("#song_select_list option:selected").text();
 		if ( songtitle === "Pick a song, any song..." ) return;
+
+		// Strip off artist name... I wish this were python
+		songtitleparts = songtitle.split("(");
+		parts2 = new Array();
+		for ( var i=0; i<songtitleparts.length-1; i++ ) {
+		    parts2[i] = songtitleparts[i];
+		}
+		songtitle = "";
+		for ( var i=0; i<parts2.length; i++ ) {
+		    songtitle = parts2[i]+"(";
+		}
+		songtitle = songtitle.substring(0, songtitle.length-1);
 		maestro.utils.setSong( songtitle );
 	    }
 	);

@@ -11,11 +11,8 @@ def session_new( request ):
     '''
     Starts a new playing sesssion.
     '''
-    user_list = []
-    song_list = SongStem.objects.all()
-    for song in song_list:
-	if user_list.count(song.name) == 0:
-	    user_list.append(str(song.name))
+    user_list = { s.name : s for s in SongStem.objects.all() }
+    user_list = user_list.values()
 
     form = PlaySessionForm( request.POST or None )
     if form.is_valid():
@@ -57,11 +54,9 @@ def session_get( request ):
     '''
     Gets (joins) a session
     '''
-    user_list = []
-    song_list = SongStem.objects.all()
-    for song in song_list:
-	if user_list.count(song.name) == 0:
-	    user_list.append(str(song.name))
+    user_list = { s.name : s for s in SongStem.objects.all() }
+    user_list = user_list.values()
+
     session_title = request.POST['title']
     try:
         playSession = PlaySession.objects.get(title=session_title)
