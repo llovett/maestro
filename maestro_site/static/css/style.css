@@ -268,3 +268,12 @@ h3 {
 h1, h2, h3 {
     color:white;
 }
+
+ul.navlinks {
+    list-style-type: none;
+}
+
+li.navlink {
+    display: inline;
+    margin:0 0.2em;
+}

@@ -17,6 +17,7 @@ urlpatterns = patterns('',
                        url( r'^play$', views.start_playback ),
                        url( r'^poll$', views.poll_playback ),
                        url( r'^reset$', views.reset_playback ),
+                       url( r'^upload$', direct_to_template, {"template":"upload.html"}, name="upload"),
 
                        # Examples:
                        # url(r'^$', 'maestro.views.home', name='home'),

@@ -30,6 +30,10 @@
       <p class="help_text">Create a new Listening Room for other devices to
 	join<br />or<br />Join a Listening Room started on another device</p>
     </form>
-    <a class="navlink" href="{% url about %}">about</a>
+
+    <ul class="navlinks">
+      <li class="navlink"><a href="{% url about %}">about</a></li>
+      <li class="navlink"><a href="{% url upload %}">upload</a></li>
+    </ul>
   </div>
 {% endblock %}
